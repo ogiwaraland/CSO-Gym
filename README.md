@@ -1,5 +1,5 @@
 # CSO-Gym
-[index.html](https://github.com/user-attachments/files/28371443/index.html)
+[index.html](https://github.com/user-attachments/files/28428971/index.html)
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -7,47 +7,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>ホームジム トレーニング管理</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;background:#f4f3ef;min-height:100vh;color:#2c2c2a}
+body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;background:#1a1a1a;color:#f0ede6;min-height:100vh}
 :root{
-  --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#085041;
-  --amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#633806;
-  --blue:#185FA5;--blue-light:#E6F1FB;--blue-dark:#0C447C;
-  --coral:#993C1D;--coral-light:#FAECE7;--coral-dark:#4A1B0C;
-  --purple:#534AB7;--purple-light:#EEEDFE;--purple-dark:#3C3489;
-  --gray-light:#F1EFE8;--gray:#5F5E5A;
-  --bg:#f4f3ef;--surface:#ffffff;--surface2:#f8f7f4;
-  --border:#e0ddd6;--border2:#ccc9c0;
-  --text:#2c2c2a;--text2:#5f5e5a;--text3:#888780;
-  --radius:10px;--radius-lg:14px;--radius-xl:18px;
+  --green:#2dbd8c;--green-light:#1a3d30;--green-dark:#a8f0d8;
+  --amber:#f0a030;--amber-light:#3d2e0a;--amber-dark:#ffd080;
+  --blue:#5090e0;--blue-light:#0e2040;--blue-dark:#a0c8ff;
+  --coral:#e06050;--coral-light:#3d1510;--coral-dark:#ffb0a0;
+  --purple:#8878e8;--purple-light:#1e1840;--purple-dark:#c8b8ff;
+  --bg:#1a1a1a;--surface:#252525;--surface2:#2e2e2e;
+  --border:#3a3a3a;--border2:#4a4a4a;
+  --text:#f0ede6;--text2:#b0ada6;--text3:#787570;
+  --radius:12px;--radius-lg:16px;
 }
 .app{display:flex;flex-direction:column;min-height:100vh;max-width:1024px;margin:0 auto}
 
 /* HEADER */
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.header-left h1{font-size:18px;font-weight:600;color:var(--text)}
-.header-left .sub{font-size:12px;color:var(--text3);margin-top:2px}
-.header-right{font-size:12px;color:var(--text2);text-align:right;line-height:1.5}
+.header{background:#202020;border-bottom:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.header h1{font-size:20px;font-weight:700;color:var(--text)}
+.header .sub{font-size:13px;color:var(--text3);margin-top:3px}
+.header-right{font-size:13px;color:var(--text2);text-align:right;line-height:1.6}
 
 /* TABS */
-.tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0 8px}
-.tab{flex:1;padding:12px 6px;border:none;background:transparent;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;border-bottom:2.5px solid transparent;transition:all 0.15s}
-.tab svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabs{display:flex;background:#202020;border-bottom:1px solid var(--border)}
+.tab{flex:1;padding:14px 6px;border:none;background:transparent;font-size:14px;font-weight:600;color:var(--text3);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;border-bottom:3px solid transparent;transition:all 0.15s}
+.tab .tab-icon{font-size:22px}
 .tab.active{color:var(--green);border-bottom-color:var(--green)}
 
 /* CONTENT */
-.content{padding:16px;flex:1;overflow-y:auto}
+.content{padding:16px;flex:1}
 .panel{display:none}
 .panel.active{display:block}
 
 /* CARDS */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:12px}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.card-title{font-size:14px;font-weight:600;color:var(--text)}
-.badge{font-size:11px;padding:3px 9px;border-radius:6px;font-weight:500;white-space:nowrap}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:14px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.card-title{font-size:16px;font-weight:700;color:var(--text)}
+.badge{font-size:12px;padding:4px 10px;border-radius:8px;font-weight:600}
 .badge-green{background:var(--green-light);color:var(--green-dark)}
 .badge-blue{background:var(--blue-light);color:var(--blue-dark)}
 .badge-amber{background:var(--amber-light);color:var(--amber-dark)}
@@ -55,161 +53,152 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 .badge-purple{background:var(--purple-light);color:var(--purple-dark)}
 
 /* SECTION TITLE */
-.sec-title{font-size:13px;font-weight:600;color:var(--text2);margin:16px 0 8px;display:flex;align-items:center;gap:6px}
-.sec-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.dot-green{background:var(--green)}
-.dot-blue{background:var(--blue)}
-.dot-amber{background:var(--amber)}
-.dot-purple{background:var(--purple)}
-.dot-coral{background:var(--coral)}
+.sec-title{font-size:15px;font-weight:700;color:var(--text2);margin:18px 0 10px;display:flex;align-items:center;gap:8px}
+.sec-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 
-/* STAT CARDS */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.stat-card{background:var(--surface2);border-radius:var(--radius);padding:12px;text-align:center;border:1px solid var(--border)}
-.stat-label{font-size:11px;color:var(--text3);margin-bottom:4px}
-.stat-value{font-size:26px;font-weight:700;color:var(--text);line-height:1}
-.stat-unit{font-size:11px;color:var(--text3);margin-top:2px}
+/* STAT */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.stat-card{background:var(--surface2);border-radius:var(--radius);padding:14px;text-align:center;border:1px solid var(--border)}
+.stat-label{font-size:13px;color:var(--text3);margin-bottom:6px}
+.stat-value{font-size:32px;font-weight:700;color:var(--text);line-height:1}
+.stat-unit{font-size:13px;color:var(--text3);margin-top:4px}
+.week-dots{display:flex;gap:8px;margin-top:8px;justify-content:center}
+.week-dot{width:14px;height:14px;border-radius:50%;background:var(--border);border:1px solid var(--border2)}
+.week-dot.done{background:var(--green);border-color:var(--green)}
 
-/* DURATION TOGGLE */
-.dur-toggle{display:flex;gap:6px;margin-bottom:12px;align-items:center}
-.dur-label{font-size:13px;color:var(--text2)}
-.dur-btn{padding:7px 18px;border-radius:20px;border:1px solid var(--border2);background:transparent;font-size:13px;font-weight:500;cursor:pointer;color:var(--text2);transition:all 0.15s}
+/* DURATION */
+.dur-toggle{display:flex;gap:8px;margin-bottom:14px;align-items:center}
+.dur-label{font-size:14px;color:var(--text2);font-weight:600}
+.dur-btn{padding:10px 24px;border-radius:24px;border:1.5px solid var(--border2);background:transparent;font-size:14px;font-weight:700;cursor:pointer;color:var(--text2);transition:all 0.15s}
 .dur-btn.sel{background:var(--blue);color:#fff;border-color:var(--blue)}
 
-/* EXERCISE ROWS */
-.ex-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border)}
+/* EXERCISE */
+.ex-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--border)}
 .ex-row:first-child{border-top:none}
-.ex-check{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;font-size:13px}
+.ex-check{width:28px;height:28px;border-radius:50%;border:2px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;font-size:15px;font-weight:700}
 .ex-check.done{background:var(--green);border-color:var(--green);color:#fff}
 .ex-main{flex:1;min-width:0}
-.ex-name{font-size:13px;color:var(--text);line-height:1.3}
+.ex-name{font-size:15px;color:var(--text);line-height:1.4;font-weight:500}
 .ex-name.done{text-decoration:line-through;color:var(--text3)}
-.ex-detail{font-size:11px;color:var(--text3);margin-top:2px}
-.ex-caution{font-size:10px;color:var(--coral);background:var(--coral-light);padding:2px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.ex-detail{font-size:13px;color:var(--text3);margin-top:3px}
+.ex-caution{font-size:12px;color:var(--coral-dark);background:var(--coral-light);padding:3px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;font-weight:600}
 
-/* WALK SECTION */
-.walk-meta{font-size:12px;color:var(--text3);margin-bottom:10px}
-.walk-controls{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.walk-timer{font-size:32px;font-weight:700;color:var(--text);min-width:90px;font-variant-numeric:tabular-nums}
-.walk-btn{padding:10px 20px;border-radius:var(--radius);border:none;font-size:14px;font-weight:600;cursor:pointer}
+/* WALK */
+.walk-meta{font-size:14px;color:var(--text2);margin-bottom:12px;line-height:1.6}
+.walk-controls{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.walk-timer{font-size:40px;font-weight:700;color:var(--text);min-width:110px;font-variant-numeric:tabular-nums}
+.walk-btn{padding:12px 24px;border-radius:var(--radius);border:none;font-size:15px;font-weight:700;cursor:pointer}
 .walk-start{background:var(--green);color:#fff}
 .walk-stop{background:var(--coral);color:#fff}
-.walk-reset{background:var(--surface2);color:var(--text2);border:1px solid var(--border)}
-.progress-wrap{background:var(--surface2);border-radius:4px;height:8px;overflow:hidden;margin-bottom:6px}
-.progress-bar{height:100%;background:var(--green);border-radius:4px;transition:width 0.5s}
-.walk-note{font-size:11px;color:var(--text3)}
+.walk-reset{background:var(--surface2);color:var(--text2);border:1px solid var(--border2)}
+.progress-wrap{background:var(--surface2);border-radius:6px;height:10px;overflow:hidden;margin-bottom:8px}
+.progress-bar{height:100%;background:var(--green);border-radius:6px;transition:width 0.5s}
+.walk-note{font-size:13px;color:var(--text3);line-height:1.5}
 
 /* NOTES */
-.notes-area{width:100%;border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;font-size:13px;font-family:inherit;color:var(--text);background:var(--surface);resize:vertical;min-height:80px;margin-top:6px}
+.notes-area{width:100%;border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:15px;font-family:inherit;color:var(--text);background:var(--surface2);resize:vertical;min-height:90px;margin-top:8px}
 .notes-area:focus{outline:none;border-color:var(--green)}
+.notes-area::placeholder{color:var(--text3)}
 
 /* COMPLETE BTN */
-.complete-btn{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px}
-.complete-btn:active{opacity:0.85;transform:scale(0.99)}
+.complete-btn{width:100%;padding:16px;background:var(--green);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:10px}
+.complete-btn:active{opacity:0.85}
+
+/* ADD EXERCISE */
+.add-section{background:var(--surface2);border:1.5px dashed var(--border2);border-radius:var(--radius-lg);padding:16px;margin-bottom:14px}
+.add-title{font-size:15px;font-weight:700;color:var(--text2);margin-bottom:12px}
+.add-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.add-input{padding:10px 12px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--surface);color:var(--text);font-size:14px;font-family:inherit}
+.add-input:focus{outline:none;border-color:var(--green)}
+.add-input::placeholder{color:var(--text3)}
+.add-select{padding:10px 12px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--surface);color:var(--text);font-size:14px;font-family:inherit}
+.add-btn{grid-column:1/-1;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer}
+.add-btn:active{opacity:0.85}
+.custom-badge{font-size:11px;padding:2px 7px;border-radius:5px;background:#3a2a50;color:#c8b8ff;font-weight:600;margin-left:6px}
 
 /* SCHEDULE */
-.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:16px}
-.day-cell{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:7px 3px;text-align:center;cursor:pointer}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:18px}
+.day-cell{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 4px;text-align:center}
 .day-cell.today{border:2px solid var(--green);background:var(--green-light)}
 .day-cell.rest{background:var(--surface2)}
-.day-name{font-size:10px;color:var(--text3);margin-bottom:3px}
-.day-num{font-size:15px;font-weight:600;color:var(--text)}
-.day-type{font-size:9px;margin-top:3px;padding:2px 3px;border-radius:3px;line-height:1.2}
+.day-name{font-size:12px;color:var(--text3);margin-bottom:4px;font-weight:600}
+.day-num{font-size:18px;font-weight:700;color:var(--text)}
+.day-type{font-size:10px;margin-top:4px;padding:3px 4px;border-radius:4px;line-height:1.2;font-weight:600}
 .day-cell.today .day-type{background:var(--green);color:#fff}
-.day-cell.rest .day-type{background:var(--gray-light);color:var(--gray)}
-.day-type-normal{background:#e8f0fb;color:var(--blue-dark)}
+.day-cell.rest .day-type{background:var(--border);color:var(--text3)}
+.day-type-normal{background:var(--blue-light);color:var(--blue-dark)}
 
-.program-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-top:1px solid var(--border)}
+.program-row{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-top:1px solid var(--border)}
 .program-row:first-child{border-top:none}
-.prog-icon{width:38px;height:38px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.prog-icon{width:44px;height:44px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .prog-upper{background:var(--blue-light)}
 .prog-lower{background:var(--green-light)}
 .prog-core{background:var(--amber-light)}
 .prog-walk{background:var(--purple-light)}
-.prog-rest{background:var(--gray-light)}
+.prog-rest{background:var(--surface2)}
 .prog-content{flex:1}
-.prog-day{font-size:12px;color:var(--text3)}
-.prog-name{font-size:14px;font-weight:600;color:var(--text);margin:1px 0 3px}
-.prog-desc{font-size:12px;color:var(--text2);line-height:1.4}
-.prog-time{font-size:11px;color:var(--text3);margin-top:3px}
+.prog-day{font-size:12px;color:var(--text3);font-weight:600}
+.prog-name{font-size:15px;font-weight:700;color:var(--text);margin:2px 0 4px}
+.prog-desc{font-size:13px;color:var(--text2);line-height:1.5}
+.prog-time{font-size:12px;color:var(--text3);margin-top:4px;font-weight:600}
 
-.injury-box{background:var(--coral-light);border:1px solid #f0997b;border-radius:var(--radius-lg);padding:14px 16px}
-.injury-item{font-size:13px;color:var(--coral-dark);padding:4px 0;line-height:1.5}
+.injury-box{background:var(--coral-light);border:1px solid #5a2010;border-radius:var(--radius-lg);padding:16px 18px}
+.injury-item{font-size:14px;color:var(--coral-dark);padding:5px 0;line-height:1.6}
 
 /* LIBRARY */
-.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.filter-btn{padding:7px 14px;border-radius:20px;border:1px solid var(--border2);background:transparent;font-size:12px;cursor:pointer;color:var(--text2);transition:all 0.15s}
-.filter-btn.sel{background:var(--text);color:#fff;border-color:var(--text)}
-.lib-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:10px}
-.lib-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.lib-name{font-size:14px;font-weight:600;color:var(--text)}
-.lib-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
-.tag{font-size:10px;padding:2px 7px;border-radius:4px}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filter-btn{padding:9px 16px;border-radius:24px;border:1.5px solid var(--border2);background:transparent;font-size:13px;font-weight:600;cursor:pointer;color:var(--text2);transition:all 0.15s}
+.filter-btn.sel{background:var(--text);color:#1a1a1a;border-color:var(--text)}
+.lib-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:12px}
+.lib-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.lib-name{font-size:15px;font-weight:700;color:var(--text)}
+.lib-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.tag{font-size:11px;padding:3px 8px;border-radius:5px;font-weight:600}
 .tag-upper{background:var(--blue-light);color:var(--blue-dark)}
 .tag-lower{background:var(--green-light);color:var(--green-dark)}
 .tag-core{background:var(--amber-light);color:var(--amber-dark)}
 .tag-walk{background:var(--purple-light);color:var(--purple-dark)}
-.tag-caution{background:var(--coral-light);color:var(--coral-dark)}
-.lib-desc{font-size:12px;color:var(--text2);line-height:1.5}
-.lib-sets{font-size:12px;color:var(--text);font-weight:600;margin-top:6px}
+.tag-ball{background:#1a3020;color:#80e8a0}
+.tag-mball{background:#2a1a30;color:#d0a0ff}
+.tag-dips{background:#0e2a3a;color:#80d0ff}
+.tag-roller{background:#1a2a10;color:#a0e060}
+.tag-band{background:#2a1040;color:#e0a0ff}
+.tag-stretch{background:#0a2a2a;color:#60e0d0}
+.lib-desc{font-size:13px;color:var(--text2);line-height:1.6}
+.lib-sets{font-size:13px;color:var(--text);font-weight:700;margin-top:8px}
 
 /* HISTORY */
-.hist-entry{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:10px}
-.hist-date{font-size:11px;color:var(--text3)}
-.hist-title{font-size:15px;font-weight:600;color:var(--text);margin:3px 0 6px}
-.hist-stats{display:flex;gap:14px;flex-wrap:wrap}
-.hist-stat{font-size:12px;color:var(--text2)}
-.stars{display:flex;gap:3px;margin-top:8px;align-items:center}
-.star{font-size:22px;cursor:pointer;color:#d3d1c7;transition:color 0.1s}
-.star.filled{color:#EF9F27}
-.star-label{font-size:11px;color:var(--text3);margin-left:4px}
-.hist-note{font-size:12px;color:var(--text2);margin-top:8px;padding:8px 10px;background:var(--surface2);border-radius:var(--radius);line-height:1.5}
-.empty{text-align:center;padding:48px 16px;color:var(--text3)}
-.empty-icon{font-size:48px;margin-bottom:12px}
-.empty-text{font-size:14px}
-
-/* WEEK PROGRESS */
-.week-dots{display:flex;gap:6px;margin-top:6px}
-.week-dot{width:12px;height:12px;border-radius:50%;background:var(--border);border:1px solid var(--border2)}
-.week-dot.done{background:var(--green);border-color:var(--green)}
-
-@media(max-width:600px){
-  .header{padding:12px 14px}
-  .content{padding:12px}
-  .walk-timer{font-size:26px}
-}
+.hist-entry{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:12px}
+.hist-date{font-size:12px;color:var(--text3);font-weight:600}
+.hist-title{font-size:16px;font-weight:700;color:var(--text);margin:4px 0 8px}
+.hist-stats{display:flex;gap:16px;flex-wrap:wrap}
+.hist-stat{font-size:13px;color:var(--text2);font-weight:500}
+.stars{display:flex;gap:4px;margin-top:10px;align-items:center}
+.star{font-size:26px;cursor:pointer;color:var(--border2);transition:color 0.1s}
+.star.filled{color:#f0a030}
+.star-label{font-size:12px;color:var(--text3);margin-left:6px;font-weight:600}
+.hist-note{font-size:13px;color:var(--text2);margin-top:10px;padding:10px 12px;background:var(--surface2);border-radius:var(--radius);line-height:1.6}
+.empty{text-align:center;padding:60px 16px;color:var(--text3)}
+.empty-icon{font-size:56px;margin-bottom:14px}
+.empty-text{font-size:15px;line-height:1.6}
 </style>
 </head>
 <body>
 <div class="app">
 
-<!-- HEADER -->
 <div class="header">
-  <div class="header-left">
+  <div>
     <h1>🏋️ ホームジム トレーニング</h1>
     <div class="sub">怪我に配慮した自宅プログラム</div>
   </div>
   <div class="header-right" id="dateDisplay"></div>
 </div>
 
-<!-- TABS -->
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('today','tab0')" id="tab0">
-    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    今日
-  </button>
-  <button class="tab" onclick="switchTab('schedule','tab1')" id="tab1">
-    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14" stroke-width="2"/><line x1="12" y1="14" x2="12" y2="14" stroke-width="2"/><line x1="16" y1="14" x2="16" y2="14" stroke-width="2"/></svg>
-    週間
-  </button>
-  <button class="tab" onclick="switchTab('library','tab2')" id="tab2">
-    <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor"/><circle cx="3" cy="12" r="1" fill="currentColor"/><circle cx="3" cy="18" r="1" fill="currentColor"/></svg>
-    種目
-  </button>
-  <button class="tab" onclick="switchTab('history','tab3')" id="tab3">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    記録
-  </button>
+  <button class="tab active" onclick="switchTab('today','tab0')" id="tab0"><span class="tab-icon">📅</span>今日</button>
+  <button class="tab" onclick="switchTab('schedule','tab1')" id="tab1"><span class="tab-icon">🗓️</span>週間</button>
+  <button class="tab" onclick="switchTab('library','tab2')" id="tab2"><span class="tab-icon">📋</span>種目</button>
+  <button class="tab" onclick="switchTab('history','tab3')" id="tab3"><span class="tab-icon">🕐</span>記録</button>
 </div>
 
 <div class="content">
@@ -236,20 +225,19 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
     <button class="dur-btn" id="dur30" onclick="setDuration(30)">30分</button>
   </div>
 
-  <div class="sec-title"><span class="sec-dot dot-amber"></span>ウォームアップ（5分）</div>
+  <div class="sec-title"><span class="sec-dot" style="background:var(--amber)"></span>ウォームアップ（5分）</div>
   <div class="card" id="card-warmup"></div>
 
-  <div class="sec-title"><span class="sec-dot dot-blue"></span>上半身トレーニング <span class="badge badge-blue" style="margin-left:auto">猫背改善対応</span></div>
+  <div class="sec-title"><span class="sec-dot" style="background:var(--blue)"></span>上半身トレーニング <span class="badge badge-blue" style="margin-left:auto;font-size:11px">猫背改善対応</span></div>
   <div class="card" id="card-upper"></div>
 
-  <div class="sec-title"><span class="sec-dot dot-green"></span>下半身トレーニング <span class="badge badge-green" style="margin-left:auto">膝・足首配慮</span></div>
+  <div class="sec-title"><span class="sec-dot" style="background:var(--green)"></span>下半身トレーニング <span class="badge badge-green" style="margin-left:auto;font-size:11px">膝・足首配慮</span></div>
   <div class="card" id="card-lower"></div>
 
-  <div class="sec-title"><span class="sec-dot dot-amber"></span>体幹トレーニング <span class="badge badge-amber" style="margin-left:auto">腰痛配慮</span></div>
+  <div class="sec-title"><span class="sec-dot" style="background:var(--amber)"></span>体幹・バランスボール <span class="badge badge-amber" style="margin-left:auto;font-size:11px">腰痛配慮</span></div>
   <div class="card" id="card-core"></div>
 
-  <!-- WALKING -->
-  <div class="sec-title"><span class="sec-dot dot-purple"></span>ウォーキング（別メニュー）</div>
+  <div class="sec-title"><span class="sec-dot" style="background:var(--purple)"></span>ウォーキング（別メニュー）</div>
   <div class="card">
     <div class="card-header">
       <div class="card-title">ルームランナー ウォーキング</div>
@@ -265,21 +253,30 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
     <div class="walk-note">※ ウォーキングはトレーニング後、または別日に実施推奨。走らないこと。</div>
   </div>
 
+  <div class="sec-title"><span class="sec-dot" style="background:#20a090"></span>ストレッチ・リカバリー（トレーニング後）</div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">フォームローラー ＆ ストレッチポール</div>
+      <span class="badge badge-green">毎日推奨</span>
+    </div>
+    <div class="ex-row"><div class="ex-check" onclick="toggleEx('s0',this)"></div><div class="ex-main"><div class="ex-name">ストレッチポール 背骨リセット</div><div class="ex-detail">5〜10分 仰向けに乗るだけ</div></div><div class="ex-caution">猫背改善</div></div>
+    <div class="ex-row"><div class="ex-check" onclick="toggleEx('s1',this)"></div><div class="ex-main"><div class="ex-name">フォームローラー 大腿四頭筋ほぐし</div><div class="ex-detail">左右各60秒</div></div><div class="ex-caution">膝ケア</div></div>
+    <div class="ex-row"><div class="ex-check" onclick="toggleEx('s2',this)"></div><div class="ex-main"><div class="ex-name">フォームローラー 背中・胸椎ほぐし</div><div class="ex-detail">60秒 × 2セット</div></div><div class="ex-caution">猫背改善</div></div>
+    <div class="ex-row"><div class="ex-check" onclick="toggleEx('s3',this)"></div><div class="ex-main"><div class="ex-name">フォームローラー 臀部ほぐし</div><div class="ex-detail">左右各60秒</div></div><div class="ex-caution">腰痛ケア</div></div>
+  </div>
+
   <div class="sec-title"><span class="sec-dot" style="background:var(--text3)"></span>今日のメモ</div>
   <textarea class="notes-area" id="todayNotes" placeholder="体調・痛みの具合・使用重量など..."></textarea>
-
   <button class="complete-btn" onclick="completeWorkout()">✓ トレーニング完了として記録する</button>
 </div>
 
 <!-- SCHEDULE -->
 <div class="panel" id="panel-schedule">
-  <div class="sec-title" style="margin-top:0"><span class="sec-dot dot-green"></span>今週のカレンダー</div>
+  <div class="sec-title" style="margin-top:0"><span class="sec-dot" style="background:var(--green)"></span>今週のカレンダー</div>
   <div class="week-grid" id="weekGrid"></div>
-
-  <div class="sec-title"><span class="sec-dot dot-blue"></span>週間プログラム（月〜日）</div>
+  <div class="sec-title"><span class="sec-dot" style="background:var(--blue)"></span>週間プログラム</div>
   <div class="card" id="weeklyProg"></div>
-
-  <div class="sec-title"><span class="sec-dot dot-coral"></span>怪我への対応メモ</div>
+  <div class="sec-title"><span class="sec-dot" style="background:var(--coral)"></span>怪我への対応メモ</div>
   <div class="injury-box" id="injuryBox"></div>
 </div>
 
@@ -290,6 +287,12 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
     <button class="filter-btn" onclick="filterLib('upper',this)">上半身</button>
     <button class="filter-btn" onclick="filterLib('lower',this)">下半身</button>
     <button class="filter-btn" onclick="filterLib('core',this)">体幹</button>
+    <button class="filter-btn" onclick="filterLib('ball',this)">バランスボール</button>
+    <button class="filter-btn" onclick="filterLib('mball',this)">ウエイトボール</button>
+    <button class="filter-btn" onclick="filterLib('dips',this)">ディップス</button>
+    <button class="filter-btn" onclick="filterLib('roller',this)">腹筋ローラー</button>
+    <button class="filter-btn" onclick="filterLib('band',this)">ヒップバンド</button>
+    <button class="filter-btn" onclick="filterLib('stretch',this)">ストレッチ</button>
     <button class="filter-btn" onclick="filterLib('walk',this)">ウォーキング</button>
   </div>
   <div id="libList"></div>
@@ -300,8 +303,8 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
   <div id="histList"></div>
 </div>
 
-</div><!-- /content -->
-</div><!-- /app -->
+</div>
+</div>
 
 <script>
 const DAYS_JP=['日','月','火','水','木','金','土'];
@@ -318,6 +321,8 @@ const upperFull=[
   {name:'ダンベル カール',detail:'10kg × 3セット × 12回',caution:null},
   {name:'フェイスプル（BARWINGマシン）',detail:'3セット × 15回',caution:'猫背改善'},
   {name:'ケトルベルスイング（低強度）',detail:'12kg × 3セット × 15回',caution:'腰に注意'},
+  {name:'ディップス',detail:'自重 × 3セット × 5〜8回',caution:'肩痛時は浅く'},
+  {name:'ネガティブ懸垂',detail:'3セット × 5回（5秒下ろす）',caution:'補助つきでもOK'},
 ];
 const upperShort=[
   {name:'ダンベル チェストプレス',detail:'10kg × 2セット × 12回',caution:null},
@@ -330,28 +335,35 @@ const lowerFull=[
   {name:'ヒップヒンジ / RDL',detail:'15kg × 3セット × 10回',caution:'背中まっすぐ'},
   {name:'レッグエクステンション（BARWINGマシン）',detail:'3セット × 15回',caution:'大腿四頭筋'},
   {name:'カーフレイズ（ゆっくり）',detail:'自重 × 3セット × 20回',caution:'足首ゆっくり'},
+  {name:'バンド グルートブリッジ',detail:'中強度 × 3セット × 15回',caution:'臀部に効かせる'},
+  {name:'バンド クラムシェル',detail:'軽〜中強度 × 3セット × 左右15回',caution:'膝安定'},
 ];
 const lowerShort=[
   {name:'ハーフスクワット（ダンベル）',detail:'10kg × 2セット × 12回',caution:'痛みは浅めに'},
   {name:'ヒップスラスト（ベンチ）',detail:'自重 × 2セット × 15回',caution:'臀部強化'},
   {name:'カーフレイズ',detail:'自重 × 2セット × 20回',caution:'足首ゆっくり'},
+  {name:'バンド クラムシェル',detail:'軽強度 × 2セット × 左右15回',caution:'膝安定'},
 ];
 const coreFull=[
   {name:'プランク',detail:'30秒 × 3セット',caution:'腰が下がらないよう'},
   {name:'バードドッグ（対角手足伸ばし）',detail:'左右10回 × 3セット',caution:'腰痛改善'},
   {name:'グルートブリッジ',detail:'3セット × 15回',caution:'腰・臀部強化'},
-  {name:'デッドバグ',detail:'左右10回 × 2セット',caution:'体幹安定'},
+  {name:'バランスボール 腹筋ロール',detail:'3セット × 10回',caution:'腰注意・ゆっくり'},
+  {name:'バランスボール 体幹キープ（座位）',detail:'30秒 × 3セット',caution:'姿勢改善'},
+  {name:'ウエイトボール ロシアンツイスト',detail:'10kg × 2セット × 左右10回',caution:'腰注意'},
+  {name:'膝つき腹筋ローラー',detail:'3セット × 8回',caution:'腰が反らないよう'},
 ];
 const coreShort=[
   {name:'プランク',detail:'30秒 × 2セット',caution:'腰に注意'},
   {name:'グルートブリッジ',detail:'2セット × 15回',caution:'腰・臀部強化'},
+  {name:'バランスボール 体幹キープ（座位）',detail:'30秒 × 2セット',caution:'姿勢改善'},
 ];
 
 const weeklyData=[
   {day:'月曜日',label:'上半身A + 体幹',dur:'60分',type:'upper',icon:'💪',desc:'胸・背中中心。ダンベル＋BARWINGマシン'},
   {day:'火曜日',label:'下半身A + ウォーキング',dur:'60分',type:'lower',icon:'🦵',desc:'大腿四頭筋・臀部。低衝撃スクワット'},
-  {day:'水曜日',label:'体幹 + ウォーキング',dur:'30分',type:'core',icon:'🔥',desc:'軽め。姿勢改善・腰痛予防中心'},
-  {day:'木曜日',label:'上半身B + 体幹',dur:'60分',type:'upper',icon:'💪',desc:'肩・腕・背中。猫背改善フェイスプル'},
+  {day:'水曜日',label:'体幹 + バランスボール',dur:'30分',type:'core',icon:'🔥',desc:'軽め。姿勢改善・腰痛予防・バランスボール'},
+  {day:'木曜日',label:'上半身B + ディップス',dur:'60分',type:'upper',icon:'💪',desc:'肩・腕・背中。ディップス・ネガティブ懸垂も'},
   {day:'金曜日',label:'下半身B + ウォーキング',dur:'60分',type:'lower',icon:'🦵',desc:'ふくらはぎ・臀部・体幹の複合'},
   {day:'土曜日',label:'完全休養',dur:'休み',type:'rest',icon:'😴',desc:'畑仕事もOK！軽いストレッチ推奨'},
   {day:'日曜日',label:'ウォーキングのみ（任意）',dur:'30分',type:'walk',icon:'🚶',desc:'ルームランナーでリカバリー歩行'},
@@ -364,28 +376,66 @@ const injuryItems=[
   '🤸 懸垂：補助つきで週1〜2回まで。無理は禁物',
   '💪 肩・首：ショルダープレスは痛みが出たら軽量に変更',
   '🪑 猫背対策：フェイスプル・バードドッグを毎回必ず実施',
+  '⚽ バランスボール：座位から始めて無理なく体幹を鍛える',
+  '🩷 ヒップバンド：膝の安定性向上にも効果的。強度は軽→中→強の順で慣らす',
+  '🧘 ストレッチポール：毎日乗るだけで猫背・腰痛改善。トレーニング後に必ず実施',
+  '🫀 フォームローラー：痛い部分はゆっくり圧をかける。強く転がしすぎない',
 ];
+
 const libraryData=[
-  {name:'ダンベル チェストプレス',cat:'upper',tags:['上半身','胸'],desc:'ベンチに仰向けになりダンベルを押し上げる。大胸筋を鍛える基本種目。可変ベンチの角度を変えれば上部・下部も狙える。',sets:'10〜15kg × 3セット × 10〜12回'},
-  {name:'ダンベル ロウ（片手）',cat:'upper',tags:['上半身','背中','猫背改善'],desc:'片手でベンチを支えにダンベルを引き上げる。広背筋・菱形筋を強化し猫背改善に有効。背中をまっすぐ保つ。',sets:'15〜17kg × 3セット × 10回'},
-  {name:'ダンベル ショルダープレス',cat:'upper',tags:['上半身','肩'],desc:'肩より上にダンベルを押し上げる。三角筋強化。肩が痛む場合は7kg以下・可動域を狭めて行う。',sets:'7〜10kg × 3セット × 12回'},
-  {name:'フェイスプル（BARWINGマシン）',cat:'upper',tags:['上半身','猫背改善','肩'],desc:'ケーブルを顔に向けて引く。巻き肩・猫背の改善に最重要種目。PC業務者に強く推奨。毎回必ず実施。',sets:'3セット × 15回（軽重量・丁寧に）'},
+  {name:'ダンベル チェストプレス',cat:'upper',tags:['上半身','胸'],desc:'ベンチに仰向けになりダンベルを押し上げる。大胸筋を鍛える基本種目。',sets:'10〜15kg × 3セット × 10〜12回'},
+  {name:'ダンベル ロウ（片手）',cat:'upper',tags:['上半身','背中','猫背改善'],desc:'片手でベンチを支えにダンベルを引き上げる。広背筋・菱形筋を強化し猫背改善に有効。',sets:'15〜17kg × 3セット × 10回'},
+  {name:'ダンベル ショルダープレス',cat:'upper',tags:['上半身','肩'],desc:'肩より上にダンベルを押し上げる。肩が痛む場合は7kg以下で行う。',sets:'7〜10kg × 3セット × 12回'},
+  {name:'フェイスプル',cat:'upper',tags:['上半身','猫背改善','肩'],desc:'BARWINGマシンでケーブルを顔に向けて引く。巻き肩・猫背の改善に最重要種目。毎回必ず実施。',sets:'3セット × 15回（軽重量・丁寧に）'},
   {name:'ダンベル カール',cat:'upper',tags:['上半身','腕'],desc:'肘を固定してダンベルを曲げる。上腕二頭筋強化。ゆっくり下ろすことで効果アップ。',sets:'10kg × 3セット × 12回'},
   {name:'ケトルベルスイング',cat:'upper',tags:['上半身','全身','有酸素'],desc:'ケトルベルを股間から肩の高さまで振り上げる。全身有酸素＋臀部強化。腰の状態を確認しながら実施。',sets:'12〜16kg × 3セット × 15回'},
-  {name:'ハーフスクワット（浅め）',cat:'lower',tags:['下半身','大腿四頭筋','膝配慮'],desc:'膝が痛む場合は浅めのスクワット。椅子から立ち上がる動作からスタートしてもOK。膝をつま先方向に向ける。',sets:'ダンベル10kg × 3セット × 12回'},
-  {name:'レッグエクステンション',cat:'lower',tags:['下半身','大腿四頭筋'],desc:'BARWINGマシンで脚を伸ばして大腿四頭筋を集中強化。スクワットが辛い場合の代替種目にも。',sets:'3セット × 15回'},
+  {name:'ハーフスクワット（浅め）',cat:'lower',tags:['下半身','大腿四頭筋','膝配慮'],desc:'膝が痛む場合は浅めのスクワット。椅子から立ち上がる動作からスタートしてもOK。',sets:'ダンベル10kg × 3セット × 12回'},
+  {name:'レッグエクステンション',cat:'lower',tags:['下半身','大腿四頭筋'],desc:'BARWINGマシンで脚を伸ばして大腿四頭筋を集中強化。スクワットが辛い場合の代替種目。',sets:'3セット × 15回'},
   {name:'ヒップスラスト',cat:'lower',tags:['下半身','臀部'],desc:'ベンチに肩を乗せ、ダンベルを腰に置いて腰を持ち上げる。臀部強化の最重要種目。膝・腰への負担が少ない。',sets:'自重 → 17〜20kg × 3セット × 12回'},
   {name:'ヒップヒンジ（RDL）',cat:'lower',tags:['下半身','臀部','ハムストリング'],desc:'腰をまっすぐ保ったまま上体を前傾。ハムストリング・臀部・姿勢改善に効果的。背中が丸まらないよう注意。',sets:'15kg × 3セット × 10回'},
-  {name:'カーフレイズ',cat:'lower',tags:['下半身','ふくらはぎ','足首配慮'],desc:'つま先立ちをゆっくり繰り返す。ふくらはぎ強化。足首の状態に合わせてゆっくり行う。段差を使うと効果的。',sets:'自重 × 3セット × 20回（ゆっくり）'},
-  {name:'プランク',cat:'core',tags:['体幹','腰痛予防'],desc:'うつ伏せで肘とつま先で体を支える。腰が下がらないよう注意。腰痛改善の基本種目。お腹に力を入れて保持。',sets:'30秒 × 3セット'},
-  {name:'バードドッグ',cat:'core',tags:['体幹','腰痛予防','猫背改善'],desc:'四つん這いで対角線の手足をゆっくり伸ばす。体幹安定・腰痛予防の最重要種目。ゆっくり丁寧に。',sets:'左右各10回 × 3セット'},
+  {name:'カーフレイズ',cat:'lower',tags:['下半身','ふくらはぎ','足首配慮'],desc:'つま先立ちをゆっくり繰り返す。ふくらはぎ強化。足首の状態に合わせてゆっくり行う。',sets:'自重 × 3セット × 20回（ゆっくり）'},
+  {name:'プランク',cat:'core',tags:['体幹','腰痛予防'],desc:'うつ伏せで肘とつま先で体を支える。腰が下がらないよう注意。腰痛改善の基本種目。',sets:'30秒 × 3セット'},
+  {name:'バードドッグ',cat:'core',tags:['体幹','腰痛予防','猫背改善'],desc:'四つん這いで対角線の手足をゆっくり伸ばす。体幹安定・腰痛予防の最重要種目。',sets:'左右各10回 × 3セット'},
   {name:'グルートブリッジ',cat:'core',tags:['体幹','臀部','腰痛予防'],desc:'仰向けで膝を曲げ腰を持ち上げる。臀部と体幹を同時強化。腰痛がある人でも安全に行える。',sets:'3セット × 15回'},
-  {name:'デッドバグ',cat:'core',tags:['体幹','腰痛予防'],desc:'仰向けで対角の手足をゆっくり伸ばす。脊柱安定に効果的。呼吸を止めないように。無理のない範囲で。',sets:'左右各10回 × 2セット'},
-  {name:'ルームランナー ウォーキング',cat:'walk',tags:['ウォーキング','有酸素','低衝撃'],desc:'傾斜1〜3°、速度4〜5km/hで速歩き。膝・足首への衝撃を最小限に。脂肪燃焼・体力向上・気分転換に。走ってはいけない。',sets:'30〜60分 ｜ 週3〜5回'},
+  {name:'バランスボール 体幹キープ（座位）',cat:'ball',tags:['バランスボール','体幹','姿勢改善'],desc:'バランスボールに座って体幹を安定させる。猫背・姿勢改善に効果的。PC作業の合間にもおすすめ。',sets:'30秒 × 3セット'},
+  {name:'バランスボール 腹筋ロール',cat:'ball',tags:['バランスボール','体幹','腹筋'],desc:'ボールに前腕を乗せて前後に転がす。腹筋・体幹強化。腰が反らないよう注意。',sets:'3セット × 10回'},
+  {name:'バランスボール ヒップリフト',cat:'ball',tags:['バランスボール','臀部','体幹'],desc:'仰向けでボールに足を乗せて腰を持ち上げる。臀部・ハムストリング強化。バランス感覚も鍛えられる。',sets:'3セット × 12回'},
+  {name:'バランスボール 背中伸ばし',cat:'ball',tags:['バランスボール','姿勢改善','腰痛予防'],desc:'ボールに背中をあてて後ろに反る。背中・腰のストレッチ。PC業務後の疲労回復に。',sets:'30秒 × 2セット'},
+  {name:'メディシンボール スクワット',cat:'mball',tags:['ウエイトボール','下半身','大腿四頭筋'],desc:'10kgボールを胸に抱えてスクワット。膝が痛む場合は浅めに。上半身が安定しやすい。',sets:'10kg × 3セット × 12回'},
+  {name:'メディシンボール ロシアンツイスト',cat:'mball',tags:['ウエイトボール','体幹','腹斜筋'],desc:'座位でボールを持ち左右に体をひねる。腹斜筋・体幹強化。腰痛がある場合は軽く回転させる程度でOK。',sets:'10kg × 3セット × 左右10回'},
+  {name:'メディシンボール チェストパス（壁）',cat:'mball',tags:['ウエイトボール','上半身','胸'],desc:'壁に向かってボールを押し出す。大胸筋・三頭筋強化。軽い爆発的な動きで筋力・瞬発力向上。',sets:'3セット × 10回'},
+  {name:'メディシンボール デッドリフト',cat:'mball',tags:['ウエイトボール','下半身','臀部'],desc:'ボールを床から持ち上げる。臀部・ハムストリング・背中の強化。背中まっすぐを徹底すること。',sets:'10kg × 3セット × 10回'},
+  {name:'メディシンボール スラム（低強度）',cat:'mball',tags:['ウエイトボール','全身','有酸素'],desc:'ボールを頭上から床に叩きつける。全身を使う有酸素種目。腰・膝に注意してゆっくり行う。',sets:'3セット × 10回'},
+  {name:'ディップス（自重）',cat:'dips',tags:['ディップス','上半身','胸・三頭筋'],desc:'ディップススタンドで体を上下させる。大胸筋下部・上腕三頭筋・肩前部を強化。肘を曲げる角度は90度まで。肩に痛みがある場合は可動域を狭めて行う。',sets:'自重 × 3セット × 5〜8回（できる回数から）'},
+  {name:'アシスト懸垂（チューブ補助）',cat:'dips',tags:['ディップス','上半身','背中'],desc:'懸垂マシンで補助を使いながら懸垂。広背筋・上腕二頭筋強化。現在補助つきで5回できるので、少しずつ補助を減らしていく。',sets:'補助つき × 3セット × 5回'},
+  {name:'ネガティブ懸垂（ゆっくり下ろす）',cat:'dips',tags:['ディップス','上半身','背中'],desc:'台に乗って懸垂の上の位置からスタートし、ゆっくり5秒かけて下ろす。筋力強化に効果的。懸垂が1回しかできない場合の最適な練習法。',sets:'3セット × 3〜5回（5秒かけて下ろす）'},
+  {name:'ハンギングニーレイズ',cat:'dips',tags:['ディップス','体幹','腹筋'],desc:'懸垂マシンにぶら下がり膝を胸に引き寄せる。腹筋・体幹強化。肩・腕への負荷も軽くかかる。腰への負担が少ない。',sets:'3セット × 10〜15回'},
+  {name:'L字ハング（キープ）',cat:'dips',tags:['ディップス','体幹','腹筋'],desc:'懸垂マシンにぶら下がり脚を水平に保つ。体幹・腸腰筋の強化。難しければ膝を曲げた状態でもOK。',sets:'15〜30秒 × 3セット'},
+  {name:'膝つき腹筋ローラー（初級）',cat:'roller',tags:['腹筋ローラー','体幹','腹筋'],desc:'膝をついた状態でローラーを前に転がして戻す。初心者向け。腰が反らないよう腹に力を入れて行う。腰痛がある場合はまずこちらから。',sets:'3セット × 8〜10回'},
+  {name:'腹筋ローラー 壁あてロール',cat:'roller',tags:['腹筋ローラー','体幹','腹筋'],desc:'壁から30〜50cm離れてローラーを転がし壁に当てて戻す。可動域を制限した安全なやり方。腰への負担を最小限に抑えられる。',sets:'3セット × 10回'},
+  {name:'腹筋ローラー 立ちロール（上級）',cat:'roller',tags:['腹筋ローラー','体幹','腹筋'],desc:'立った状態からローラーを前に転がす。非常に強度が高い。まずは膝つきで十分な筋力をつけてから挑戦。腰痛時は禁止。',sets:'できる回数 × 3セット（目標5回）'},
+  {name:'腹筋ローラー サイドロール',cat:'roller',tags:['腹筋ローラー','体幹','腹斜筋'],desc:'斜め方向にローラーを転がす。腹斜筋・脇腹を強化。まず膝つき正面ができてから追加する。',sets:'左右各5回 × 3セット'},
+  {name:'バンド ヒップアブダクション（横歩き）',cat:'band',tags:['ヒップバンド','臀部','太もも'],desc:'バンドを膝上に巻いてカニ歩き。中臀筋・外転筋を強化。膝の安定性向上にも効果的。膝の靭帯ケアにもおすすめ。',sets:'強度：軽〜中 × 3セット × 左右15歩'},
+  {name:'バンド グルートブリッジ',cat:'band',tags:['ヒップバンド','臀部','体幹'],desc:'バンドを膝上に巻いてヒップリフト。通常より臀部への負荷が大幅アップ。腰痛予防・美尻づくりに最適。',sets:'強度：中 × 3セット × 15回'},
+  {name:'バンド スクワット',cat:'band',tags:['ヒップバンド','下半身','大腿四頭筋'],desc:'バンドを膝上に巻いてスクワット。膝が内側に入るのを防ぐ。膝の安定性向上と臀部の活性化が同時にできる。',sets:'強度：軽〜中 × 3セット × 12回'},
+  {name:'バンド クラムシェル',cat:'band',tags:['ヒップバンド','臀部','中臀筋'],desc:'横向きに寝てバンドを膝上に巻き、膝を貝のように開閉する。中臀筋・外旋筋の強化。膝・腰の安定性向上に最適。',sets:'強度：軽〜中 × 3セット × 左右15回'},
+  {name:'バンド キックバック（四つん這い）',cat:'band',tags:['ヒップバンド','臀部','ハムストリング'],desc:'四つん這いでバンドを足首に巻き後ろに蹴り上げる。大臀筋・ハムストリング強化。美尻・桃尻づくりの定番種目。',sets:'強度：中〜強 × 3セット × 左右12回'},
+  {name:'バンド サイドライイングアブダクション',cat:'band',tags:['ヒップバンド','臀部','太もも'],desc:'横向きに寝てバンドを膝上に巻き、上の脚を持ち上げる。外転筋・中臀筋の集中強化。美脚づくりに効果的。',sets:'強度：中 × 3セット × 左右15回'},
+  {name:'フォームローラー 大腿四頭筋ほぐし',cat:'stretch',tags:['フォームローラー','リカバリー','膝ケア'],desc:'うつ伏せで太ももの前面をローラーでほぐす。膝への負担を軽減する効果あり。膝の靭帯が痛む場合のケアに最適。痛い部分は圧を弱めてゆっくり。',sets:'左右各60秒 × 2セット'},
+  {name:'フォームローラー 腸脛靭帯ほぐし',cat:'stretch',tags:['フォームローラー','リカバリー','膝ケア'],desc:'横向きで太ももの外側（腸脛靭帯）をほぐす。膝の外側の痛みに効果的。ゆっくり転がして痛い部分で止めて圧をかける。',sets:'左右各60秒 × 2セット'},
+  {name:'フォームローラー 背中・胸椎ほぐし',cat:'stretch',tags:['フォームローラー','リカバリー','猫背改善'],desc:'仰向けでローラーを背中の下に置き前後に転がす。胸椎の可動域改善・猫背改善に効果的。PC業務後のケアに最適。',sets:'60秒 × 2セット'},
+  {name:'フォームローラー 臀部・梨状筋ほぐし',cat:'stretch',tags:['フォームローラー','リカバリー','腰痛ケア'],desc:'座位でローラーに臀部を乗せてほぐす。梨状筋・臀部の張りをほぐして腰痛改善に効果的。片側ずつ体重をかける。',sets:'左右各60秒 × 2セット'},
+  {name:'フォームローラー ふくらはぎほぐし',cat:'stretch',tags:['フォームローラー','リカバリー','足首ケア'],desc:'床に座りふくらはぎの下にローラーを置いてほぐす。足首の柔軟性向上・ふくらはぎの疲労回復に効果的。',sets:'左右各60秒 × 2セット'},
+  {name:'ストレッチポール 背骨リセット',cat:'stretch',tags:['ストレッチポール','リカバリー','猫背改善'],desc:'ポールを背骨に沿って縦に置き仰向けに乗る。重力で背骨・胸椎が自然に伸びる。猫背・巻き肩改善の基本。5〜10分乗るだけでOK。',sets:'5〜10分 × 毎日推奨'},
+  {name:'ストレッチポール 肩甲骨ほぐし',cat:'stretch',tags:['ストレッチポール','リカバリー','肩こり'],desc:'ポールに仰向けに乗り腕を左右に広げてゆっくり動かす。肩甲骨まわりをほぐす。肩・首の痛みケアに効果的。',sets:'左右各30秒 × 3セット'},
+  {name:'ストレッチポール 腰椎ストレッチ',cat:'stretch',tags:['ストレッチポール','リカバリー','腰痛ケア'],desc:'ポールを腰の下に横置きして仰向けに乗る。腰椎のアーチを整える。腰痛持ちに特に効果的。痛みが出たら中止。',sets:'60秒 × 2セット'},
+  {name:'ストレッチポール 股関節ストレッチ',cat:'stretch',tags:['ストレッチポール','リカバリー','下半身'],desc:'ポールに仰向けに乗り膝を曲げて左右にゆっくり倒す。股関節・内転筋のストレッチ。下半身トレーニング後のケアに最適。',sets:'左右各30秒 × 3セット'},
+  {name:'ルームランナー ウォーキング',cat:'walk',tags:['ウォーキング','有酸素','低衝撃'],desc:'傾斜1〜3°、速度4〜5km/hで速歩き。膝・足首への衝撃を最小限に。脂肪燃焼・体力向上に。走らないこと。',sets:'30〜60分 ｜ 週3〜5回'},
 ];
 
 let duration=60;
 let checked={};
+let customExercises=JSON.parse(localStorage.getItem('hgCustomEx')||'[]');
 let walkOn=false,walkSec=0,walkIv=null;
 let hist=JSON.parse(localStorage.getItem('hgHist')||'[]');
 let wkCnt=parseInt(localStorage.getItem('hgWk')||'0');
@@ -397,10 +447,8 @@ function checkNewWeek(){
   if(mon!==wkMon){wkCnt=0;wkMon=mon;localStorage.setItem('hgMon',mon);localStorage.setItem('hgWk','0');}
 }
 function getMondayStr(d){
-  const dt=new Date(d);
-  const day=dt.getDay();
-  const diff=dt.getDate()-day+(day===0?-6:1);
-  dt.setDate(diff);
+  const dt=new Date(d);const day=dt.getDay();
+  dt.setDate(dt.getDate()-day+(day===0?-6:1));
   return dt.toDateString();
 }
 
@@ -411,31 +459,38 @@ function setDuration(d){
   renderToday();
 }
 
+function getCustomByCategory(cat){
+  return customExercises.filter(e=>e.cat===cat);
+}
+
 function renderToday(){
   const up=duration===60?upperFull:upperShort;
   const lo=duration===60?lowerFull:lowerShort;
   const co=duration===60?coreFull:coreShort;
-  renderExList('card-warmup',warmupData,'w');
-  renderExList('card-upper',up,'u');
-  renderExList('card-lower',lo,'l');
-  renderExList('card-core',co,'c');
+  renderExList('card-warmup',warmupData,'w',[]);
+  renderExList('card-upper',up,'u',getCustomByCategory('upper'));
+  renderExList('card-lower',lo,'l',getCustomByCategory('lower'));
+  renderExList('card-core',[...co,...getCustomByCategory('ball')],'c',getCustomByCategory('core'));
   updateCounts();
   updateWeekDots();
 }
 
-function renderExList(id,data,prefix){
-  document.getElementById(id).innerHTML=data.map((e,i)=>{
+function renderExList(id,data,prefix,extra){
+  const all=[...data,...extra];
+  let html=all.map((e,i)=>{
     const k=prefix+i;
     const done=checked[k];
+    const isCustom=i>=data.length;
     return `<div class="ex-row">
       <div class="ex-check${done?' done':''}" onclick="toggleEx('${k}',this)">${done?'✓':''}</div>
       <div class="ex-main">
-        <div class="ex-name${done?' done':''}">${e.name}</div>
+        <div class="ex-name${done?' done':''}">${e.name}${isCustom?'<span class="custom-badge">追加</span>':''}</div>
         <div class="ex-detail">${e.detail}</div>
       </div>
       ${e.caution?`<div class="ex-caution">${e.caution}</div>`:''}
     </div>`;
   }).join('');
+  document.getElementById(id).innerHTML=html;
 }
 
 function toggleEx(k,el){
@@ -496,39 +551,29 @@ function completeWorkout(){
   localStorage.setItem('hgHist',JSON.stringify(hist));
   wkCnt=Math.min(5,wkCnt+1);
   localStorage.setItem('hgWk',String(wkCnt));
-  checked={};
-  renderToday();
-  resetWalk();
+  checked={};renderToday();resetWalk();
   document.getElementById('todayNotes').value='';
-  alert('✅ トレーニングを記録しました！お疲れ様でした！');
-  switchTab('history','tab3');
-  renderHistory();
+  alert('✅ トレーニングを記録しました！\nお疲れ様でした！');
+  switchTab('history','tab3');renderHistory();
 }
 
 function renderWeekGrid(){
-  const today=new Date();
-  const dow=today.getDay();
-  const types=['rest','upper','lower','core','upper','lower','walk'];
+  const today=new Date();const dow=today.getDay();
   const labels=['休養','上半身','下半身','体幹','上半身','下半身','歩行'];
   let h='';
   DAYS_JP.forEach((d,i)=>{
     const dt=new Date(today);dt.setDate(today.getDate()+(i-dow));
     const cls=i===dow?'today':(i===0||i===6?'rest':'');
-    h+=`<div class="day-cell ${cls}">
-      <div class="day-name">${d}</div>
-      <div class="day-num">${dt.getDate()}</div>
-      <div class="day-type">${labels[i]}</div>
-    </div>`;
+    h+=`<div class="day-cell ${cls}"><div class="day-name">${d}</div><div class="day-num">${dt.getDate()}</div><div class="day-type">${labels[i]}</div></div>`;
   });
   document.getElementById('weekGrid').innerHTML=h;
 }
 
 function renderWeeklyProg(){
-  const icons={upper:'💪',lower:'🦵',core:'🔥',walk:'🚶',rest:'😴'};
   const colors={upper:'prog-upper',lower:'prog-lower',core:'prog-core',walk:'prog-walk',rest:'prog-rest'};
   document.getElementById('weeklyProg').innerHTML=weeklyData.map(p=>`
     <div class="program-row">
-      <div class="prog-icon ${colors[p.type]}">${icons[p.type]}</div>
+      <div class="prog-icon ${colors[p.type]}">${p.icon}</div>
       <div class="prog-content">
         <div class="prog-day">${p.day}</div>
         <div class="prog-name">${p.label}</div>
@@ -540,20 +585,65 @@ function renderWeeklyProg(){
 }
 
 function renderLibrary(cat){
-  const data=cat==='all'?libraryData:libraryData.filter(e=>e.cat===cat);
-  const tc={upper:'tag-upper',lower:'tag-lower',core:'tag-core',walk:'tag-walk'};
-  const bc={upper:'badge-blue',lower:'badge-green',core:'badge-amber',walk:'badge-purple'};
-  const bl={upper:'上半身',lower:'下半身',core:'体幹',walk:'歩行'};
-  document.getElementById('libList').innerHTML=data.map(e=>`
-    <div class="lib-card">
+  const allData=[...libraryData,...customExercises.map(e=>({...e,tags:[e.cat==='upper'?'上半身':e.cat==='lower'?'下半身':e.cat==='ball'?'バランスボール':'体幹','追加種目']}))];
+  const data=cat==='all'?allData:allData.filter(e=>e.cat===cat);
+  const tc={upper:'tag-upper',lower:'tag-lower',core:'tag-core',walk:'tag-walk',ball:'tag-ball',mball:'tag-mball',dips:'tag-dips',roller:'tag-roller',band:'tag-band',stretch:'tag-stretch'};
+  const bc={upper:'badge-blue',lower:'badge-green',core:'badge-amber',walk:'badge-purple',ball:'badge-green',mball:'badge-amber',dips:'badge-blue',roller:'badge-amber',band:'badge-purple',stretch:'badge-green'};
+  const bl={upper:'上半身',lower:'下半身',core:'体幹',walk:'歩行',ball:'ボール',mball:'ウエイトB',dips:'ディップス',roller:'腹筋ローラー',band:'ヒップバンド',stretch:'ストレッチ'};
+  let html=`<div class="add-section">
+    <div class="add-title">➕ 種目を追加する</div>
+    <div class="add-form">
+      <input class="add-input" id="newName" placeholder="種目名（例：ダンベルフライ）" style="grid-column:1/-1">
+      <input class="add-input" id="newDetail" placeholder="セット数・回数（例：3セット×12回）">
+      <input class="add-input" id="newCaution" placeholder="注意点（任意）">
+      <select class="add-select" id="newCat">
+        <option value="upper">上半身</option>
+        <option value="lower">下半身</option>
+        <option value="core">体幹</option>
+        <option value="ball">バランスボール</option>
+        <option value="mball">ウエイトボール</option>
+        <option value="dips">ディップス・懸垂</option>
+        <option value="roller">腹筋ローラー</option>
+        <option value="band">ヒップバンド</option>
+        <option value="stretch">ストレッチ・リカバリー</option>
+      </select>
+      <button class="add-btn" onclick="addExercise()">追加する</button>
+    </div>
+  </div>`;
+  html+=data.map((e,idx)=>{
+    const isCustom=idx>=libraryData.length||(e.tags&&e.tags.includes('追加種目'));
+    return `<div class="lib-card">
       <div class="lib-header">
-        <div class="lib-name">${e.name}</div>
-        <span class="badge ${bc[e.cat]}">${bl[e.cat]}</span>
+        <div class="lib-name">${e.name}${isCustom?'<span class="custom-badge">追加</span>':''}</div>
+        <span class="badge ${bc[e.cat]||'badge-blue'}">${bl[e.cat]||e.cat}</span>
       </div>
-      <div class="lib-tags">${e.tags.map(t=>`<span class="tag ${tc[e.cat]}">${t}</span>`).join('')}</div>
-      <div class="lib-desc">${e.desc}</div>
-      <div class="lib-sets">📋 ${e.sets}</div>
-    </div>`).join('');
+      <div class="lib-tags">${(e.tags||[]).map(t=>`<span class="tag ${tc[e.cat]||'tag-upper'}">${t}</span>`).join('')}</div>
+      <div class="lib-desc">${e.desc||''}</div>
+      <div class="lib-sets">📋 ${e.sets||e.detail||''}</div>
+      ${isCustom?`<button onclick="removeCustomEx(${customExercises.indexOf(e)})" style="margin-top:8px;padding:6px 12px;background:var(--coral-light);color:var(--coral-dark);border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">削除</button>`:''}
+    </div>`;
+  }).join('');
+  document.getElementById('libList').innerHTML=html;
+}
+
+function addExercise(){
+  const name=document.getElementById('newName').value.trim();
+  const detail=document.getElementById('newDetail').value.trim();
+  const caution=document.getElementById('newCaution').value.trim();
+  const cat=document.getElementById('newCat').value;
+  if(!name){alert('種目名を入力してください');return;}
+  customExercises.push({name,detail:detail||'記録なし',caution:caution||null,cat,sets:detail||'記録なし',desc:'追加した種目です',tags:[cat==='upper'?'上半身':cat==='lower'?'下半身':cat==='ball'?'バランスボール':'体幹','追加種目']});
+  localStorage.setItem('hgCustomEx',JSON.stringify(customExercises));
+  renderLibrary('all');
+  renderToday();
+  alert('✅ 種目を追加しました！');
+}
+
+function removeCustomEx(idx){
+  if(!confirm('この種目を削除しますか？'))return;
+  customExercises.splice(idx,1);
+  localStorage.setItem('hgCustomEx',JSON.stringify(customExercises));
+  renderLibrary('all');renderToday();
 }
 
 function filterLib(cat,btn){
@@ -577,7 +667,7 @@ function renderHistory(){
         <span class="hist-stat">🚶 ウォーキング${h.walk}分</span>
         ${h.note?'<span class="hist-stat">📝 メモあり</span>':''}
       </div>
-      <div class="stars" id="st-${idx}">
+      <div class="stars">
         ${[1,2,3,4,5].map(s=>`<span class="star${h.stars>=s?' filled':''}" onclick="rateStar(${idx},${s})">★</span>`).join('')}
         <span class="star-label">達成度</span>
       </div>
@@ -606,9 +696,7 @@ function init(){
   const now=new Date();
   document.getElementById('dateDisplay').innerHTML=
     `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日（${DAYS_JP[now.getDay()]}）`;
-  updateWeekDots();
-  renderToday();
-  renderLibrary('all');
+  updateWeekDots();renderToday();
 }
 init();
 </script>
