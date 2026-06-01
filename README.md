@@ -1,5 +1,5 @@
 # CSO-Gym
-[index.html](https://github.com/user-attachments/files/28460774/index.html)
+[index.html](https://github.com/user-attachments/files/28460984/index.html)
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -342,8 +342,15 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
   </div>
 
   <!-- 設備一覧 -->
-  <div class="sec-title"><span class="sec-dot" style="background:var(--purple)"></span>設備一覧</div>
+  <div class="sec-title"><span class="sec-dot" style="background:var(--purple)"></span>設備一覧 <span style="font-size:12px;color:var(--text3);font-weight:400">タップで種目を追加</span></div>
   <div class="card" id="equipList"></div>
+  <div id="equipExModal" style="display:none;background:var(--surface);border:2px solid var(--green);border-radius:var(--radius-lg);padding:16px 18px;margin-top:10px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div id="equipModalTitle" style="font-size:16px;font-weight:700;color:var(--text)"></div>
+      <button onclick="closeEquipModal()" style="padding:6px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text2);font-size:13px;font-weight:700;cursor:pointer">✕ 閉じる</button>
+    </div>
+    <div id="equipExList"></div>
+  </div>
 
 </div>
 
@@ -952,12 +959,160 @@ function saveGoal(key,val){
   localStorage.setItem('hgGoals',JSON.stringify(goals));
 }
 
+// 器具ごとの種目マッピング
+const equipExercises={
+  'ダンベル':[
+    {name:'ダンベル チェストプレス',detail:'10kg × 3セット × 10回',cat:'upper',day:'月・木'},
+    {name:'ダンベル インクラインプレス',detail:'10kg × 3セット × 10回',cat:'upper',day:'月・木'},
+    {name:'ダンベル フライ',detail:'10kg × 3セット × 12回',cat:'upper',day:'月・木'},
+    {name:'ダンベル ロウ',detail:'15kg × 3セット × 10回',cat:'upper',day:'月・木'},
+    {name:'ダンベル ショルダープレス',detail:'7kg × 3セット × 12回',cat:'upper',day:'月・木'},
+    {name:'サイドレイズ',detail:'7kg × 3セット × 15回',cat:'upper',day:'木'},
+    {name:'フロントレイズ',detail:'7kg × 3セット × 12回',cat:'upper',day:'木'},
+    {name:'リアレイズ',detail:'7kg × 3セット × 15回',cat:'upper',day:'木'},
+    {name:'ハンマーカール',detail:'10kg × 3セット × 12回',cat:'upper',day:'木'},
+    {name:'コンセントレーションカール',detail:'10kg × 3セット × 10回',cat:'upper',day:'木'},
+    {name:'トライセプスエクステンション',detail:'7kg × 3セット × 12回',cat:'upper',day:'木'},
+    {name:'ダンベル キックバック（三頭筋）',detail:'7kg × 3セット × 12回',cat:'upper',day:'木'},
+    {name:'ヒップヒンジ / RDL',detail:'15kg × 3セット × 10回',cat:'lower',day:'火・金'},
+    {name:'ハーフスクワット（ダンベル）',detail:'10kg × 3セット × 12回',cat:'lower',day:'火・金'},
+    {name:'ヒップスラスト（ベンチ）',detail:'17kg × 3セット × 12回',cat:'lower',day:'火・金'},
+  ],
+  'ケトルベル':[
+    {name:'ケトルベルスイング',detail:'12kg × 3セット × 15回',cat:'upper',day:'月・木'},
+    {name:'ケトルベル ゴブレットスクワット',detail:'12kg × 3セット × 12回',cat:'lower',day:'火・金'},
+    {name:'ケトルベル デッドリフト',detail:'16kg × 3セット × 10回',cat:'lower',day:'火・金'},
+  ],
+  'BARWINGマシン':[
+    {name:'フェイスプル',detail:'3セット × 15回',cat:'upper',day:'月・木'},
+    {name:'レッグエクステンション',detail:'3セット × 15回',cat:'lower',day:'火・金'},
+    {name:'ケーブルロウ',detail:'3セット × 12回',cat:'upper',day:'月・木'},
+    {name:'ラットプルダウン',detail:'3セット × 10回',cat:'upper',day:'月・木'},
+  ],
+  'ルームランナー':[
+    {name:'ウォーキング（傾斜1〜3°）',detail:'30〜60分 速度4〜5km/h',cat:'walk',day:'火・金・日'},
+  ],
+  'トレーニングベンチ':[
+    {name:'ダンベル チェストプレス',detail:'10kg × 3セット × 10回',cat:'upper',day:'月・木'},
+    {name:'ダンベル インクラインプレス',detail:'10kg × 3セット × 10回',cat:'upper',day:'月・木'},
+    {name:'ヒップスラスト（ベンチ）',detail:'17kg × 3セット × 12回',cat:'lower',day:'火・金'},
+    {name:'ダンベル ロウ（片手）',detail:'15kg × 3セット × 10回',cat:'upper',day:'月・木'},
+  ],
+  '懸垂マシン＋ディップス':[
+    {name:'アシスト懸垂',detail:'補助つき × 3セット × 5回',cat:'dips',day:'木'},
+    {name:'ネガティブ懸垂',detail:'3セット × 5回（5秒下ろす）',cat:'dips',day:'木'},
+    {name:'ディップス',detail:'自重 × 3セット × 5〜8回',cat:'dips',day:'木'},
+    {name:'ハンギングニーレイズ',detail:'3セット × 10〜15回',cat:'dips',day:'木'},
+    {name:'L字ハング',detail:'15〜30秒 × 3セット',cat:'dips',day:'木'},
+  ],
+  'バランスボール':[
+    {name:'バランスボール 体幹キープ（座位）',detail:'30秒 × 3セット',cat:'ball',day:'水'},
+    {name:'バランスボール 腹筋ロール',detail:'3セット × 10回',cat:'ball',day:'水'},
+    {name:'バランスボール ヒップリフト',detail:'3セット × 12回',cat:'ball',day:'水'},
+    {name:'バランスボール 背中伸ばし',detail:'30秒 × 2セット',cat:'ball',day:'水'},
+  ],
+  'ウエイトボール':[
+    {name:'メディシンボール スクワット',detail:'10kg × 3セット × 12回',cat:'mball',day:'火・金'},
+    {name:'メディシンボール ロシアンツイスト',detail:'10kg × 3セット × 左右10回',cat:'mball',day:'火・金'},
+    {name:'メディシンボール チェストパス',detail:'3セット × 10回',cat:'mball',day:'月・木'},
+    {name:'メディシンボール デッドリフト',detail:'10kg × 3セット × 10回',cat:'mball',day:'火・金'},
+  ],
+  'フォームローラー':[
+    {name:'フォームローラー 大腿四頭筋ほぐし',detail:'左右各60秒 × 2セット',cat:'stretch',day:'毎日'},
+    {name:'フォームローラー 腸脛靭帯ほぐし',detail:'左右各60秒 × 2セット',cat:'stretch',day:'毎日'},
+    {name:'フォームローラー 背中・胸椎ほぐし',detail:'60秒 × 2セット',cat:'stretch',day:'毎日'},
+    {name:'フォームローラー 臀部ほぐし',detail:'左右各60秒 × 2セット',cat:'stretch',day:'毎日'},
+  ],
+  'ストレッチポール':[
+    {name:'ストレッチポール 背骨リセット',detail:'5〜10分 乗るだけ',cat:'stretch',day:'毎日'},
+    {name:'ストレッチポール 肩甲骨ほぐし',detail:'左右各30秒 × 3セット',cat:'stretch',day:'毎日'},
+    {name:'ストレッチポール 腰椎ストレッチ',detail:'60秒 × 2セット',cat:'stretch',day:'毎日'},
+    {name:'ストレッチポール 股関節ストレッチ',detail:'左右各30秒 × 3セット',cat:'stretch',day:'毎日'},
+  ],
+  'ヒップバンド':[
+    {name:'バンド ヒップアブダクション横歩き',detail:'軽〜中 × 3セット × 左右15歩',cat:'band',day:'火・金'},
+    {name:'バンド グルートブリッジ',detail:'中強度 × 3セット × 15回',cat:'band',day:'火・金'},
+    {name:'バンド クラムシェル',detail:'軽〜中 × 3セット × 左右15回',cat:'band',day:'火・金'},
+    {name:'バンド キックバック',detail:'中〜強 × 3セット × 左右12回',cat:'band',day:'火・金'},
+  ],
+  '腹筋ローラー':[
+    {name:'膝つき腹筋ローラー（初級）',detail:'3セット × 8〜10回',cat:'roller',day:'水'},
+    {name:'腹筋ローラー 壁あてロール',detail:'3セット × 10回',cat:'roller',day:'水'},
+    {name:'腹筋ローラー サイドロール',detail:'左右各5回 × 3セット',cat:'roller',day:'水'},
+  ],
+};
+
 function renderEquip(){
   document.getElementById('equipList').innerHTML=equipData.map(e=>`
-    <div style="display:flex;align-items:flex-start;gap:12px;padding:8px 0;border-top:1px solid var(--border)">
-      <div style="font-size:12px;font-weight:700;color:var(--purple-dark);background:var(--purple-light);padding:4px 10px;border-radius:6px;white-space:nowrap;margin-top:2px">${e.cat}</div>
-      <div style="font-size:14px;color:var(--text);line-height:1.6">${e.items}</div>
+    <div onclick="showEquipEx('${e.cat}')" style="display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--border);cursor:pointer;transition:opacity 0.15s" onmousedown="this.style.opacity='0.7'" onmouseup="this.style.opacity='1'">
+      <div style="font-size:12px;font-weight:700;color:var(--purple-dark);background:var(--purple-light);padding:4px 10px;border-radius:6px;white-space:nowrap">${e.cat}</div>
+      <div style="flex:1;font-size:13px;color:var(--text2);line-height:1.5">${e.items}</div>
+      <div style="font-size:18px;color:var(--text3)">›</div>
     </div>`).join('');
+}
+
+function showEquipEx(catName){
+  // 器具名のキーを特定
+  const keyMap={
+    'ダンベル':'ダンベル','ケトルベル':'ケトルベル','マシン':'BARWINGマシン',
+    '器具':'懸垂マシン＋ディップス','ボール類':'バランスボール',
+    'ケア用品':'フォームローラー','バンド':'ヒップバンド'
+  };
+  // 直接キーを探す
+  let exList=equipExercises[catName];
+  if(!exList){
+    // catNameに含まれるキーを探す
+    for(const key of Object.keys(equipExercises)){
+      if(catName.includes(key)||key.includes(catName)){exList=equipExercises[key];break;}
+    }
+  }
+  if(!exList||!exList.length){
+    alert('この器具の種目データはまだ追加されていません');return;
+  }
+  document.getElementById('equipModalTitle').textContent='📦 '+catName+' の種目';
+  const catColors={upper:'var(--blue-light)',lower:'var(--green-light)',core:'var(--amber-light)',
+    ball:'var(--green-light)',mball:'var(--amber-light)',dips:'var(--blue-light)',
+    roller:'var(--amber-light)',band:'var(--purple-light)',stretch:'#0a2a2a',walk:'var(--purple-light)'};
+  const catTextColors={upper:'var(--blue-dark)',lower:'var(--green-dark)',core:'var(--amber-dark)',
+    ball:'var(--green-dark)',mball:'var(--amber-dark)',dips:'var(--blue-dark)',
+    roller:'var(--amber-dark)',band:'var(--purple-dark)',stretch:'#60e0d0',walk:'var(--purple-dark)'};
+  const catLabels={upper:'上半身',lower:'下半身',core:'体幹',ball:'バランス',
+    mball:'ウエイト',dips:'ディップス',roller:'ローラー',band:'バンド',stretch:'ストレッチ',walk:'歩行'};
+
+  document.getElementById('equipExList').innerHTML=exList.map(e=>{
+    const alreadyAdded=customExercises.some(c=>c.name===e.name);
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--border)">
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:var(--text)">${e.name}</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px">${e.detail}</div>
+        <div style="display:flex;gap:6px;margin-top:4px">
+          <span style="font-size:11px;padding:2px 7px;border-radius:5px;background:${catColors[e.cat]};color:${catTextColors[e.cat]};font-weight:600">${catLabels[e.cat]||e.cat}</span>
+          <span style="font-size:11px;padding:2px 7px;border-radius:5px;background:var(--surface2);color:var(--text3)">📅 ${e.day}</span>
+        </div>
+      </div>
+      ${alreadyAdded
+        ?`<div style="padding:8px 14px;background:var(--surface2);color:var(--text3);border-radius:8px;font-size:12px;font-weight:700">追加済</div>`
+        :`<button onclick="addFromEquip('${e.name.replace(/'/g,"\'")}','${e.detail.replace(/'/g,"\'")}','${e.cat}')" style="padding:8px 14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">＋ 追加</button>`
+      }
+    </div>`;
+  }).join('');
+
+  document.getElementById('equipExModal').style.display='block';
+  document.getElementById('equipExModal').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function addFromEquip(name,detail,cat){
+  if(customExercises.some(c=>c.name===name)){alert('すでに追加されています');return;}
+  customExercises.push({name,detail,caution:null,cat,sets:detail,desc:'設備一覧から追加した種目',tags:[cat,'追加種目']});
+  localStorage.setItem('hgCustomEx',JSON.stringify(customExercises));
+  renderToday();
+  // ボタンを追加済みに変更
+  showEquipEx(document.getElementById('equipModalTitle').textContent.replace('📦 ','').replace(' の種目',''));
+  alert('✅ '+name+'\nをスケジュールに追加しました！');
+}
+
+function closeEquipModal(){
+  document.getElementById('equipExModal').style.display='none';
 }
 
 function renderMypage(){
