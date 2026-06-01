@@ -1,5 +1,5 @@
 # CSO-Gym
-[index.html](https://github.com/user-attachments/files/28429208/index.html)
+[index.html](https://github.com/user-attachments/files/28460774/index.html)
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -198,7 +198,7 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
   <button class="tab active" onclick="switchTab('today','tab0')" id="tab0"><span class="tab-icon">📅</span>今日</button>
   <button class="tab" onclick="switchTab('schedule','tab1')" id="tab1"><span class="tab-icon">🗓️</span>週間</button>
   <button class="tab" onclick="switchTab('library','tab2')" id="tab2"><span class="tab-icon">📋</span>種目</button>
-  <button class="tab" onclick="switchTab('history','tab3')" id="tab3"><span class="tab-icon">🕐</span>記録</button>
+  <button class="tab" onclick="switchTab('mypage','tab3')" id="tab3"><span class="tab-icon">⚙️</span>マイページ</button>
 </div>
 
 <div class="content">
@@ -304,9 +304,47 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
   <div id="libList"></div>
 </div>
 
-<!-- HISTORY -->
-<div class="panel" id="panel-history">
-  <div id="histList"></div>
+<!-- MYPAGE -->
+<div class="panel" id="panel-mypage">
+
+  <!-- 体調チェック -->
+  <div class="sec-title" style="margin-top:0"><span class="sec-dot" style="background:var(--coral)"></span>今日の体調チェック</div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">今日の状態を記録（翌日リセット）</div>
+    <div id="bodyCheck"></div>
+  </div>
+
+  <!-- 使用重量メモ -->
+  <div class="sec-title"><span class="sec-dot" style="background:var(--blue)"></span>使用重量メモ</div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">各種目の現在の重量を記録</div>
+    <div id="weightMemoList"></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <input id="wName" class="add-input" placeholder="種目名" style="flex:1">
+      <input id="wKg" class="add-input" placeholder="重量(kg)" style="width:90px">
+      <button onclick="addWeightMemo()" style="padding:10px 16px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer">追加</button>
+    </div>
+  </div>
+
+  <!-- 思い出しノート -->
+  <div class="sec-title"><span class="sec-dot" style="background:var(--amber)"></span>思い出しノート</div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--text3);margin-bottom:8px">体調・痛み・気づきを記録（上書き保存・容量ゼロ）</div>
+    <textarea id="noteArea" class="notes-area" placeholder="例：右膝が少し痛む。ダンベルカールは12kgに上げた。腰は今日は調子良い..."></textarea>
+    <button onclick="saveNote()" style="margin-top:10px;width:100%;padding:12px;background:var(--amber);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">💾 保存（上書き）</button>
+  </div>
+
+  <!-- 目標管理 -->
+  <div class="sec-title"><span class="sec-dot" style="background:var(--green)"></span>目標管理</div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">現在値と目標を入力（最新値のみ保存）</div>
+    <div id="goalList"></div>
+  </div>
+
+  <!-- 設備一覧 -->
+  <div class="sec-title"><span class="sec-dot" style="background:var(--purple)"></span>設備一覧</div>
+  <div class="card" id="equipList"></div>
+
 </div>
 
 </div>
@@ -329,11 +367,27 @@ const upperFull=[
   {name:'ケトルベルスイング（低強度）',detail:'12kg × 3セット × 15回',caution:'腰に注意'},
   {name:'ディップス',detail:'自重 × 3セット × 5〜8回',caution:'肩痛時は浅く'},
   {name:'ネガティブ懸垂',detail:'3セット × 5回（5秒下ろす）',caution:'補助つきでもOK'},
+  // 大胸筋
+  {name:'ダンベル フライ（ベンチ）',detail:'10kg × 3セット × 12回',caution:'大胸筋伸展'},
+  {name:'ダンベル インクラインプレス（ベンチ角度上げ）',detail:'10kg × 3セット × 10回',caution:'大胸筋上部'},
+  // 上腕二頭筋
+  {name:'ハンマーカール',detail:'10kg × 3セット × 12回',caution:'肘固定'},
+  {name:'コンセントレーションカール',detail:'10kg × 3セット × 10回',caution:'孤立させて集中'},
+  // 上腕三頭筋
+  {name:'ダンベル トライセプスエクステンション',detail:'7kg × 3セット × 12回',caution:'肘が開かないよう'},
+  {name:'ダンベル キックバック（三頭筋）',detail:'7kg × 3セット × 12回',caution:'肘を高く保つ'},
+  // 三角筋
+  {name:'ダンベル サイドレイズ',detail:'7kg × 3セット × 15回',caution:'三角筋中部'},
+  {name:'ダンベル フロントレイズ',detail:'7kg × 3セット × 12回',caution:'三角筋前部'},
+  {name:'ダンベル リアレイズ（前傾）',detail:'7kg × 3セット × 15回',caution:'三角筋後部・猫背改善'},
 ];
 const upperShort=[
   {name:'ダンベル チェストプレス',detail:'10kg × 2セット × 12回',caution:null},
   {name:'ダンベル ロウ',detail:'15kg × 2セット × 12回',caution:null},
   {name:'フェイスプル（BARWINGマシン）',detail:'2セット × 15回',caution:'猫背改善'},
+  {name:'ダンベル フライ',detail:'10kg × 2セット × 12回',caution:'大胸筋'},
+  {name:'サイドレイズ',detail:'7kg × 2セット × 15回',caution:'三角筋'},
+  {name:'トライセプスエクステンション',detail:'7kg × 2セット × 12回',caution:'三頭筋'},
 ];
 const lowerFull=[
   {name:'ハーフスクワット（ダンベル持ち）',detail:'10kg × 3セット × 12回',caution:'痛みは浅めに'},
@@ -369,7 +423,7 @@ const weeklyData=[
   {day:'月曜日',label:'上半身A + 体幹',dur:'60分',type:'upper',icon:'💪',desc:'胸・背中中心。ダンベル＋BARWINGマシン'},
   {day:'火曜日',label:'下半身A + ウォーキング',dur:'60分',type:'lower',icon:'🦵',desc:'大腿四頭筋・臀部。低衝撃スクワット'},
   {day:'水曜日',label:'体幹 + バランスボール',dur:'30分',type:'core',icon:'🔥',desc:'軽め。姿勢改善・腰痛予防・バランスボール'},
-  {day:'木曜日',label:'上半身B + ディップス',dur:'60分',type:'upper',icon:'💪',desc:'肩・腕・背中。ディップス・ネガティブ懸垂も'},
+  {day:'木曜日',label:'上半身B + 三角筋・腕',dur:'60分',type:'upper',icon:'💪',desc:'三角筋・二頭筋・三頭筋。ディップス・サイドレイズ'},
   {day:'金曜日',label:'下半身B + ウォーキング',dur:'60分',type:'lower',icon:'🦵',desc:'ふくらはぎ・臀部・体幹の複合'},
   {day:'土曜日',label:'完全休養',dur:'休み',type:'rest',icon:'😴',desc:'畑仕事もOK！軽いストレッチ推奨'},
   {day:'日曜日',label:'ウォーキングのみ（任意）',dur:'30分',type:'walk',icon:'🚶',desc:'ルームランナーでリカバリー歩行'},
@@ -436,6 +490,15 @@ const libraryData=[
   {name:'ストレッチポール 肩甲骨ほぐし',cat:'stretch',tags:['ストレッチポール','リカバリー','肩こり'],desc:'ポールに仰向けに乗り腕を左右に広げてゆっくり動かす。肩甲骨まわりをほぐす。肩・首の痛みケアに効果的。',sets:'左右各30秒 × 3セット'},
   {name:'ストレッチポール 腰椎ストレッチ',cat:'stretch',tags:['ストレッチポール','リカバリー','腰痛ケア'],desc:'ポールを腰の下に横置きして仰向けに乗る。腰椎のアーチを整える。腰痛持ちに特に効果的。痛みが出たら中止。',sets:'60秒 × 2セット'},
   {name:'ストレッチポール 股関節ストレッチ',cat:'stretch',tags:['ストレッチポール','リカバリー','下半身'],desc:'ポールに仰向けに乗り膝を曲げて左右にゆっくり倒す。股関節・内転筋のストレッチ。下半身トレーニング後のケアに最適。',sets:'左右各30秒 × 3セット'},
+  {name:'ダンベル フライ',cat:'upper',tags:['上半身','大胸筋'],desc:'ベンチに仰向けになりダンベルを弧を描くように開閉する。大胸筋の伸展・収縮を最大限に使える種目。チェストプレスと組み合わせると効果的。',sets:'10kg × 3セット × 12回'},
+  {name:'ダンベル インクラインプレス',cat:'upper',tags:['上半身','大胸筋上部'],desc:'ベンチを30〜45度に傾けてプレス。大胸筋上部を集中強化。猫背改善・胸の厚みづくりに効果的。',sets:'10kg × 3セット × 10回'},
+  {name:'ハンマーカール',cat:'upper',tags:['上半身','上腕二頭筋'],desc:'親指を上に向けた状態でダンベルを曲げる。上腕二頭筋・腕橈骨筋を同時強化。通常カールより腕全体を太くする効果あり。',sets:'10kg × 3セット × 12回'},
+  {name:'コンセントレーションカール',cat:'upper',tags:['上半身','上腕二頭筋'],desc:'座位で肘を膝に固定してカール。上腕二頭筋を孤立させて集中的に鍛える。力こぶを作るのに最も効果的な種目。',sets:'10kg × 3セット × 10回'},
+  {name:'トライセプスエクステンション',cat:'upper',tags:['上半身','上腕三頭筋'],desc:'頭の後ろでダンベルを持ち肘を伸ばす。上腕三頭筋の長頭を集中強化。二の腕引き締めに効果的。肘が外に開かないよう注意。',sets:'7kg × 3セット × 12回'},
+  {name:'ダンベル キックバック（三頭筋）',cat:'upper',tags:['上半身','上腕三頭筋'],desc:'前傾姿勢で肘を高く保ちダンベルを後ろに伸ばす。上腕三頭筋外側頭の強化。肘の位置を固定してゆっくり動かす。',sets:'7kg × 3セット × 12回'},
+  {name:'サイドレイズ',cat:'upper',tags:['上半身','三角筋中部'],desc:'肘を少し曲げてダンベルを真横に上げる。三角筋中部を集中強化。肩幅を広くする定番種目。肩の痛みに注意して軽めから始める。',sets:'7kg × 3セット × 15回'},
+  {name:'フロントレイズ',cat:'upper',tags:['上半身','三角筋前部'],desc:'ダンベルを正面に肩の高さまで上げる。三角筋前部の強化。猫背の人は特に前部が弱いことが多い。',sets:'7kg × 3セット × 12回'},
+  {name:'リアレイズ（前傾）',cat:'upper',tags:['上半身','三角筋後部','猫背改善'],desc:'上体を前傾させてダンベルを横に開く。三角筋後部・菱形筋を強化。猫背・巻き肩の改善に最も効果的な種目のひとつ。',sets:'7kg × 3セット × 15回'},
   {name:'ルームランナー ウォーキング',cat:'walk',tags:['ウォーキング','有酸素','低衝撃'],desc:'傾斜1〜3°、速度4〜5km/hで速歩き。膝・足首への衝撃を最小限に。脂肪燃焼・体力向上に。走らないこと。',sets:'30〜60分 ｜ 週3〜5回'},
 ];
 
@@ -443,7 +506,6 @@ let duration=60;
 let checked={};
 let customExercises=JSON.parse(localStorage.getItem('hgCustomEx')||'[]');
 let walkOn=false,walkSec=0,walkIv=null;
-let hist=JSON.parse(localStorage.getItem('hgHist')||'[]');
 let wkCnt=parseInt(localStorage.getItem('hgWk')||'0');
 let wkMon=localStorage.getItem('hgMon')||'';
 
@@ -560,8 +622,8 @@ function completeWorkout(){
 let weekOffset=0;
 function changeWeek(dir){
   const next=weekOffset+dir;
-  if(next<-3||next>3){
-    alert(next<0?'3週前までしか遡れません':'3週先までしか進めません');
+  if(next<-1||next>1){
+    alert(next<0?'1週前までしか遡れません':'1週先までしか進めません');
     return;
   }
   weekOffset=next;
@@ -588,8 +650,8 @@ function renderWeekGrid(){
   // ボタンの有効・無効を更新
   const btnPrev=document.getElementById('btnPrev');
   const btnNext=document.getElementById('btnNext');
-  if(btnPrev){btnPrev.style.opacity=weekOffset<=-3?'0.3':'1';btnPrev.style.cursor=weekOffset<=-3?'not-allowed':'pointer';}
-  if(btnNext){btnNext.style.opacity=weekOffset>=3?'0.3':'1';btnNext.style.cursor=weekOffset>=3?'not-allowed':'pointer';}
+  if(btnPrev){btnPrev.style.opacity=weekOffset<=-1?'0.3':'1';btnPrev.style.cursor=weekOffset<=-1?'not-allowed':'pointer';}
+  if(btnNext){btnNext.style.opacity=weekOffset>=1?'0.3':'1';btnNext.style.cursor=weekOffset>=1?'not-allowed':'pointer';}
 
   let h='';
   DAYS_JP.forEach((d,i)=>{
@@ -759,34 +821,7 @@ function filterLib(cat,btn){
   renderLibrary(cat);
 }
 
-function renderHistory(){
-  const el=document.getElementById('histList');
-  if(!hist.length){
-    el.innerHTML='<div class="empty"><div class="empty-icon">🏆</div><div class="empty-text">まだ記録がありません。<br>最初のトレーニングを完了しましょう！</div></div>';
-    return;
-  }
-  el.innerHTML=hist.map((h,idx)=>`
-    <div class="hist-entry">
-      <div class="hist-date">${h.date}</div>
-      <div class="hist-title">${h.dur}分トレーニング — ${h.done}/${h.total}種目完了</div>
-      <div class="hist-stats">
-        <span class="hist-stat">⏱ ${h.dur}分</span>
-        <span class="hist-stat">🚶 ウォーキング${h.walk}分</span>
-        ${h.note?'<span class="hist-stat">📝 メモあり</span>':''}
-      </div>
-      <div class="stars">
-        ${[1,2,3,4,5].map(s=>`<span class="star${h.stars>=s?' filled':''}" onclick="rateStar(${idx},${s})">★</span>`).join('')}
-        <span class="star-label">達成度</span>
-      </div>
-      ${h.note?`<div class="hist-note">${h.note}</div>`:''}
-    </div>`).join('');
-}
 
-function rateStar(idx,s){
-  hist[idx].stars=s;
-  localStorage.setItem('hgHist',JSON.stringify(hist));
-  renderHistory();
-}
 
 function switchTab(name,tabId){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -794,8 +829,143 @@ function switchTab(name,tabId){
   document.getElementById('panel-'+name).classList.add('active');
   document.getElementById(tabId).classList.add('active');
   if(name==='schedule'){renderWeekGrid();renderWeeklyProg();}
-  if(name==='history')renderHistory();
+  if(name==='mypage')renderMypage();
   if(name==='library')renderLibrary('all');
+}
+
+
+// ===== MYPAGE =====
+const bodyParts=[
+  {id:'knee',label:'膝',icon:'🦵'},
+  {id:'back',label:'腰',icon:'🔙'},
+  {id:'shoulder',label:'肩・首',icon:'💆'},
+  {id:'ankle',label:'足首',icon:'🦶'},
+  {id:'energy',label:'体力',icon:'⚡'},
+];
+const goalItems=[
+  {id:'weight',label:'体重',unit:'kg'},
+  {id:'fat',label:'体脂肪率',unit:'%'},
+  {id:'muscle',label:'筋肉量',unit:'kg'},
+  {id:'pullup',label:'懸垂回数',unit:'回'},
+];
+const equipData=[
+  {cat:'ダンベル',items:'4kg / 7kg / 10kg / 15kg / 17kg / 20kg'},
+  {cat:'ケトルベル',items:'8kg / 12kg / 16kg'},
+  {cat:'マシン',items:'BARWINGマシン / ルームランナー'},
+  {cat:'器具',items:'可変式トレーニングベンチ / 懸垂マシン＋ディップススタンド'},
+  {cat:'ボール類',items:'バランスボール10kg / ウエイトボール10kg'},
+  {cat:'ケア用品',items:'フォームローラー / ストレッチポール'},
+  {cat:'バンド',items:'ヒップバンド（軽・中・強）/ 腹筋ローラー'},
+];
+
+function renderBodyCheck(){
+  const today=new Date().toDateString();
+  const saved=JSON.parse(localStorage.getItem('hgBody')||'{}');
+  const savedDate=localStorage.getItem('hgBodyDate')||'';
+  const data=savedDate===today?saved:{};
+  const levels=[{v:0,label:'良好',color:'var(--green)'},{v:1,label:'普通',color:'var(--amber)'},{v:2,label:'痛みあり',color:'var(--coral)'}];
+  document.getElementById('bodyCheck').innerHTML=bodyParts.map(p=>{
+    const cur=data[p.id]??0;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border)">
+      <div style="font-size:22px">${p.icon}</div>
+      <div style="font-size:15px;font-weight:600;color:var(--text);width:60px">${p.label}</div>
+      <div style="display:flex;gap:6px;flex:1">
+        ${levels.map(l=>`<button onclick="setBody('${p.id}',${l.v})" style="flex:1;padding:8px 4px;border-radius:8px;border:2px solid ${cur===l.v?l.color:'var(--border2)'};background:${cur===l.v?l.color+'22':'transparent'};color:${cur===l.v?l.color:'var(--text3)'};font-size:13px;font-weight:700;cursor:pointer">${l.label}</button>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setBody(id,val){
+  const today=new Date().toDateString();
+  const saved=JSON.parse(localStorage.getItem('hgBody')||'{}');
+  const savedDate=localStorage.getItem('hgBodyDate')||'';
+  const data=savedDate===today?saved:{};
+  data[id]=val;
+  localStorage.setItem('hgBody',JSON.stringify(data));
+  localStorage.setItem('hgBodyDate',today);
+  renderBodyCheck();
+}
+
+function renderWeightMemo(){
+  const memos=JSON.parse(localStorage.getItem('hgWeightMemo')||'[]');
+  const el=document.getElementById('weightMemoList');
+  if(!memos.length){el.innerHTML='<div style="font-size:13px;color:var(--text3)">まだ記録がありません</div>';return;}
+  el.innerHTML=memos.map((m,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border)">
+      <div style="flex:1;font-size:15px;color:var(--text);font-weight:500">${m.name}</div>
+      <div style="font-size:18px;font-weight:700;color:var(--blue-dark)">${m.kg}kg</div>
+      <button onclick="removeWeightMemo(${i})" style="padding:5px 10px;background:var(--coral-light);color:var(--coral-dark);border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">削除</button>
+    </div>`).join('');
+}
+
+function addWeightMemo(){
+  const name=document.getElementById('wName').value.trim();
+  const kg=document.getElementById('wKg').value.trim();
+  if(!name||!kg){alert('種目名と重量を入力してください');return;}
+  const memos=JSON.parse(localStorage.getItem('hgWeightMemo')||'[]');
+  const existing=memos.findIndex(m=>m.name===name);
+  if(existing>=0)memos[existing].kg=kg;
+  else memos.push({name,kg});
+  localStorage.setItem('hgWeightMemo',JSON.stringify(memos));
+  document.getElementById('wName').value='';
+  document.getElementById('wKg').value='';
+  renderWeightMemo();
+}
+
+function removeWeightMemo(i){
+  const memos=JSON.parse(localStorage.getItem('hgWeightMemo')||'[]');
+  memos.splice(i,1);
+  localStorage.setItem('hgWeightMemo',JSON.stringify(memos));
+  renderWeightMemo();
+}
+
+function saveNote(){
+  const note=document.getElementById('noteArea').value;
+  localStorage.setItem('hgNote',note);
+  alert('✅ 保存しました！');
+}
+
+function loadNote(){
+  const note=localStorage.getItem('hgNote')||'';
+  const el=document.getElementById('noteArea');
+  if(el)el.value=note;
+}
+
+function renderGoals(){
+  const goals=JSON.parse(localStorage.getItem('hgGoals')||'{}');
+  document.getElementById('goalList').innerHTML=goalItems.map(g=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border)">
+      <div style="font-size:14px;font-weight:600;color:var(--text);width:80px">${g.label}</div>
+      <div style="flex:1;display:flex;gap:6px;align-items:center">
+        <input type="number" placeholder="現在" value="${goals[g.id+'_cur']||''}" onchange="saveGoal('${g.id}_cur',this.value)" style="width:70px;padding:8px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text);font-size:14px;text-align:center">
+        <span style="color:var(--text3);font-size:13px">→ 目標</span>
+        <input type="number" placeholder="目標" value="${goals[g.id+'_goal']||''}" onchange="saveGoal('${g.id}_goal',this.value)" style="width:70px;padding:8px;border:1px solid var(--green);border-radius:8px;background:var(--green-light);color:var(--green-dark);font-size:14px;text-align:center">
+        <span style="color:var(--text3);font-size:13px">${g.unit}</span>
+      </div>
+    </div>`).join('');
+}
+
+function saveGoal(key,val){
+  const goals=JSON.parse(localStorage.getItem('hgGoals')||'{}');
+  goals[key]=val;
+  localStorage.setItem('hgGoals',JSON.stringify(goals));
+}
+
+function renderEquip(){
+  document.getElementById('equipList').innerHTML=equipData.map(e=>`
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:8px 0;border-top:1px solid var(--border)">
+      <div style="font-size:12px;font-weight:700;color:var(--purple-dark);background:var(--purple-light);padding:4px 10px;border-radius:6px;white-space:nowrap;margin-top:2px">${e.cat}</div>
+      <div style="font-size:14px;color:var(--text);line-height:1.6">${e.items}</div>
+    </div>`).join('');
+}
+
+function renderMypage(){
+  renderBodyCheck();
+  renderWeightMemo();
+  loadNote();
+  renderGoals();
+  renderEquip();
 }
 
 function init(){
