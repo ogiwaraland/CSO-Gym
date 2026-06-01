@@ -1,5 +1,5 @@
 # CSO-Gym
-[index.html](https://github.com/user-attachments/files/28461676/index.html)
+[index.html](https://github.com/user-attachments/files/28461896/index.html)
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -259,10 +259,10 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
       <div class="card-title">フォームローラー ＆ ストレッチポール</div>
       <span class="badge badge-green">毎日推奨</span>
     </div>
-    <div class="ex-row"><div class="ex-check" onclick="toggleEx('s0',this)"></div><div class="ex-main"><div class="ex-name">ストレッチポール 背骨リセット</div><div class="ex-detail">5〜10分 仰向けに乗るだけ</div></div><div class="ex-caution">猫背改善</div></div>
-    <div class="ex-row"><div class="ex-check" onclick="toggleEx('s1',this)"></div><div class="ex-main"><div class="ex-name">フォームローラー 大腿四頭筋ほぐし</div><div class="ex-detail">左右各60秒</div></div><div class="ex-caution">膝ケア</div></div>
-    <div class="ex-row"><div class="ex-check" onclick="toggleEx('s2',this)"></div><div class="ex-main"><div class="ex-name">フォームローラー 背中・胸椎ほぐし</div><div class="ex-detail">60秒 × 2セット</div></div><div class="ex-caution">猫背改善</div></div>
-    <div class="ex-row"><div class="ex-check" onclick="toggleEx('s3',this)"></div><div class="ex-main"><div class="ex-name">フォームローラー 臀部ほぐし</div><div class="ex-detail">左右各60秒</div></div><div class="ex-caution">腰痛ケア</div></div>
+    <div class="ex-row" style="flex-wrap:wrap"><div style="display:flex;align-items:center;gap:10px;width:100%"><div class="ex-check" onclick="toggleEx('s0',this)"></div><div class="ex-main"><div class="ex-name">ストレッチポール 背骨リセット</div><div class="ex-detail">5〜10分 仰向けに乗るだけ</div></div><div class="ex-caution">猫背改善</div><div onclick="toggleDesc('desc-s0')" style="font-size:20px;color:var(--text3);cursor:pointer;padding:0 4px;flex-shrink:0">ℹ️</div></div><div id="desc-s0" style="display:none;width:100%;margin-top:6px;padding:10px 12px;background:var(--surface2);border-radius:8px;border-left:3px solid var(--blue);font-size:15px;color:var(--text2);line-height:1.7">ポールを頭から背骨に沿って縦に置き仰向けに乗る。重力で背骨・胸椎が自然に伸びる。猫背・巻き肩改善の基本。5〜10分乗るだけ。毎日やるのがおすすめ。乗り降りはゆっくり行う。</div></div>
+    <div class="ex-row" style="flex-wrap:wrap"><div style="display:flex;align-items:center;gap:10px;width:100%"><div class="ex-check" onclick="toggleEx('s1',this)"></div><div class="ex-main"><div class="ex-name">フォームローラー 大腿四頭筋ほぐし</div><div class="ex-detail">左右各60秒</div></div><div class="ex-caution">膝ケア</div><div onclick="toggleDesc('desc-s1')" style="font-size:20px;color:var(--text3);cursor:pointer;padding:0 4px;flex-shrink:0">ℹ️</div></div><div id="desc-s1" style="display:none;width:100%;margin-top:6px;padding:10px 12px;background:var(--surface2);border-radius:8px;border-left:3px solid var(--blue);font-size:15px;color:var(--text2);line-height:1.7">うつ伏せで太ももの前面をローラーの上に乗せてゆっくり転がす。膝への負担を軽減する効果あり。痛い部分では止めて圧をかけるとより効果的。強く転がしすぎないよう注意。</div></div>
+    <div class="ex-row" style="flex-wrap:wrap"><div style="display:flex;align-items:center;gap:10px;width:100%"><div class="ex-check" onclick="toggleEx('s2',this)"></div><div class="ex-main"><div class="ex-name">フォームローラー 背中・胸椎ほぐし</div><div class="ex-detail">60秒 × 2セット</div></div><div class="ex-caution">猫背改善</div><div onclick="toggleDesc('desc-s2')" style="font-size:20px;color:var(--text3);cursor:pointer;padding:0 4px;flex-shrink:0">ℹ️</div></div><div id="desc-s2" style="display:none;width:100%;margin-top:6px;padding:10px 12px;background:var(--surface2);border-radius:8px;border-left:3px solid var(--blue);font-size:15px;color:var(--text2);line-height:1.7">仰向けでローラーを背中の中央に置き前後にゆっくり転がす。胸椎の可動域改善・猫背改善に効果的。PC業務後の疲労回復に最適。気持ちよく感じる範囲で行う。</div></div>
+    <div class="ex-row" style="flex-wrap:wrap"><div style="display:flex;align-items:center;gap:10px;width:100%"><div class="ex-check" onclick="toggleEx('s3',this)"></div><div class="ex-main"><div class="ex-name">フォームローラー 臀部ほぐし</div><div class="ex-detail">左右各60秒</div></div><div class="ex-caution">腰痛ケア</div><div onclick="toggleDesc('desc-s3')" style="font-size:20px;color:var(--text3);cursor:pointer;padding:0 4px;flex-shrink:0">ℹ️</div></div><div id="desc-s3" style="display:none;width:100%;margin-top:6px;padding:10px 12px;background:var(--surface2);border-radius:8px;border-left:3px solid var(--blue);font-size:15px;color:var(--text2);line-height:1.7">座位でローラーに臀部を乗せて片側ずつ体重をかけながら転がす。梨状筋・臀部の張りをほぐして腰痛改善に効果的。かなり痛い場合は体重を少し逃がして圧を調整する。</div></div>
   </div>
 
   <div class="sec-title"><span class="sec-dot" style="background:var(--text3)"></span>今日のメモ</div>
@@ -619,6 +619,14 @@ const exDescriptions={
   'ハンギングニーレイズ':'懸垂マシンにぶら下がり膝をゆっくり胸に引き寄せる。腹筋・体幹強化。肩や腕の補助筋にも効果あり。腰への負担が少なく怪我がある人でも安全にできる。',
   'L字ハング（キープ）':'懸垂マシンにぶら下がり脚を水平に保つ。体幹・腸腰筋の強化。難しければ膝を曲げた状態でもOK。少しずつ時間を延ばしていく。かなりの体幹強度が必要。',
   'ウォーキング（傾斜1〜3°）':'ルームランナーを傾斜1〜3°に設定して速歩きする。速度は4〜5km/h。膝・足首への衝撃を最小限に抑えながら有酸素運動ができる。走らないこと。脂肪燃焼・体力向上に最も安全な種目。',
+
+  'ダンベル サイドレイズ':'肘を少し曲げた状態でダンベルを真横に肩の高さまで上げる。三角筋中部を集中強化。肩幅を広くする定番種目。肩の痛みに注意して軽めから始める。上げすぎず肩の高さで止めること。',
+  'ダンベル フロントレイズ':'ダンベルを正面に肩の高さまでゆっくり上げる。三角筋前部の強化。猫背の人は特に前部が弱いことが多い。反動を使わず丁寧に。肩より高く上げすぎないよう注意。',
+  'ダンベル リアレイズ（前傾）':'上体を45度前傾させてダンベルを横に開く。三角筋後部・菱形筋を強化。猫背・巻き肩の改善に最も効果的な種目のひとつ。軽い重量でも十分効果あり。肘を軽く曲げた状態で行う。',
+  'ストレッチポール 背骨リセット（縦置き）':'ポールを頭から背骨に沿って縦に置き仰向けに乗る。重力で背骨・胸椎が自然に伸びる。猫背・巻き肩改善の基本。5〜10分乗るだけ。毎日やるのがおすすめ。',
+  'フォームローラー 大腿四頭筋':'うつ伏せで太ももの前面をローラーの上に乗せてゆっくり転がす。膝への負担を軽減する効果あり。痛い部分では止めて圧をかけるとより効果的。',
+  'フォームローラー 臀部ほぐし':'座位でローラーに臀部を乗せて片側ずつ体重をかけながら転がす。梨状筋・臀部の張りをほぐして腰痛改善に効果的。',
+
   'ルームランナー ウォーキング':'ルームランナーを傾斜1〜3°に設定して速歩きする。速度は4〜5km/h。膝・足首への衝撃を最小限に抑えながら有酸素運動ができる。走らないこと。脂肪燃焼・体力向上に最も安全な種目。',
 
 };
