@@ -1,5 +1,4 @@
-# CSO-Gym
-[index.html](https://github.com/user-attachments/files/28461896/index.html)
+[index.html](https://github.com/user-attachments/files/28526575/index.html)
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -205,18 +204,9 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 
 <!-- TODAY -->
 <div class="panel active" id="panel-today">
-  <div class="stat-grid">
-    <div class="stat-card">
-      <div class="stat-label">今週のトレーニング</div>
-      <div class="stat-value" id="weekCount">0</div>
-      <div class="stat-unit">/ 5 回</div>
-      <div class="week-dots" id="weekDots"></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">今日の完了種目</div>
-      <div class="stat-value" id="doneCount">0</div>
-      <div class="stat-unit">種目完了</div>
-    </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:14px">
+    <div style="font-size:16px;font-weight:700;color:var(--text2);margin-bottom:12px">📊 今日の進捗</div>
+    <div id="categoryProgress"></div>
   </div>
 
   <div class="dur-toggle">
@@ -267,7 +257,7 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 
   <div class="sec-title"><span class="sec-dot" style="background:var(--text3)"></span>今日のメモ</div>
   <textarea class="notes-area" id="todayNotes" placeholder="体調・痛みの具合・使用重量など..."></textarea>
-  <button class="complete-btn" onclick="completeWorkout()">✓ トレーニング完了として記録する</button>
+  <button class="complete-btn" onclick="completeWorkout()">✓ 今日のトレーニングを終了する</button>
 </div>
 
 <!-- SCHEDULE -->
@@ -307,10 +297,10 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 <!-- MYPAGE -->
 <div class="panel" id="panel-mypage">
 
-  <!-- 体調チェック -->
-  <div class="sec-title" style="margin-top:0"><span class="sec-dot" style="background:var(--coral)"></span>今日の体調チェック</div>
+  <!-- 違和感・痛みチェック -->
+  <div class="sec-title" style="margin-top:0"><span class="sec-dot" style="background:var(--coral)"></span>今日の違和感・痛みチェック</div>
   <div class="card">
-    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">今日の状態を記録（翌日リセット）</div>
+    <div style="font-size:14px;color:var(--text3);margin-bottom:12px">各部位の今日の程度を記録（翌日自動リセット）</div>
     <div id="bodyCheck"></div>
   </div>
 
@@ -329,9 +319,12 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
   <!-- 思い出しノート -->
   <div class="sec-title"><span class="sec-dot" style="background:var(--amber)"></span>思い出しノート</div>
   <div class="card">
-    <div style="font-size:13px;color:var(--text3);margin-bottom:8px">体調・痛み・気づきを記録（上書き保存・容量ゼロ）</div>
-    <textarea id="noteArea" class="notes-area" placeholder="例：右膝が少し痛む。ダンベルカールは12kgに上げた。腰は今日は調子良い..."></textarea>
-    <button onclick="saveNote()" style="margin-top:10px;width:100%;padding:12px;background:var(--amber);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">💾 保存（上書き）</button>
+    <div style="font-size:14px;color:var(--text3);margin-bottom:10px">トレーニング終了時に自動追記されます</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <textarea id="noteInput" class="notes-area" placeholder="今日のメモを手動で追加..." style="min-height:70px;flex:1;margin-top:0"></textarea>
+    </div>
+    <button onclick="addNoteManual()" style="width:100%;padding:12px;background:var(--amber);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;margin-bottom:14px">➕ 手動で追加</button>
+    <div id="noteList"></div>
   </div>
 
   <!-- 目標管理 -->
@@ -683,15 +676,87 @@ function toggleEx(k,el){
 }
 
 function updateCounts(){
-  const cnt=Object.values(checked).filter(Boolean).length;
-  document.getElementById('doneCount').textContent=cnt;
+  updateCategoryProgress();
+}
+
+function updateCategoryProgress(){
+  const cats=[
+    {id:'w', label:'ウォームアップ', icon:'🔥', data:warmupData},
+    {id:'u', label:'上半身', icon:'💪', data:duration===60?upperFull:upperShort},
+    {id:'l', label:'下半身', icon:'🦵', data:duration===60?lowerFull:lowerShort},
+    {id:'c', label:'体幹・ボール', icon:'🏋️', data:duration===60?[...coreFull,...getCustomByCategory('ball')]:coreShort},
+    {id:'s', label:'ストレッチ', icon:'🧘', data:[
+      {name:'ストレッチポール 背骨リセット'},
+      {name:'フォームローラー 大腿四頭筋ほぐし'},
+      {name:'フォームローラー 背中・胸椎ほぐし'},
+      {name:'フォームローラー 臀部ほぐし'},
+    ]},
+  ];
+
+  // Count walk
+  const walkDone = walkSec > 0;
+  const walkTarget = 30 * 60;
+  const walkPct = Math.min(100, Math.round((walkSec / walkTarget) * 100));
+
+  let html = cats.map(cat => {
+    const total = cat.data.length;
+    const done = Array.from({length: total}, (_, i) => checked[cat.id + i]).filter(Boolean).length;
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    const color = pct === 100 ? 'var(--green)' : pct > 0 ? 'var(--amber)' : 'var(--border)';
+    return `<div style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:15px;font-weight:600;color:var(--text)">${cat.icon} ${cat.label}</span>
+        <span style="font-size:15px;font-weight:700;color:${color}">${done} / ${total}</span>
+      </div>
+      <div style="background:var(--surface2);border-radius:6px;height:10px;overflow:hidden">
+        <div style="height:100%;border-radius:6px;background:${color};width:${pct}%;transition:width 0.3s"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Add walking row
+  const walkColor = walkSec >= walkTarget ? 'var(--green)' : walkSec > 0 ? 'var(--amber)' : 'var(--border)';
+  const walkMin = Math.floor(walkSec / 60);
+  html += `<div style="margin-bottom:4px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <span style="font-size:15px;font-weight:600;color:var(--text)">🚶 ウォーキング</span>
+      <span style="font-size:15px;font-weight:700;color:${walkColor}">${walkMin} / 30 分</span>
+    </div>
+    <div style="background:var(--surface2);border-radius:6px;height:10px;overflow:hidden">
+      <div style="height:100%;border-radius:6px;background:${walkColor};width:${walkPct}%;transition:width 0.3s"></div>
+    </div>
+  </div>`;
+
+  // Stretch uses s0-s3 keys
+  const stretchTotal = 4;
+  const stretchDone = [0,1,2,3].filter(i => checked['s'+i]).length;
+  const stretchPct = Math.round((stretchDone / stretchTotal) * 100);
+  const stretchColor = stretchPct === 100 ? 'var(--green)' : stretchPct > 0 ? 'var(--amber)' : 'var(--border)';
+  html += `<div style="margin-bottom:4px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <span style="font-size:15px;font-weight:600;color:var(--text)">🧘 リカバリー</span>
+      <span style="font-size:15px;font-weight:700;color:${stretchColor}">${stretchDone} / ${stretchTotal}</span>
+    </div>
+    <div style="background:var(--surface2);border-radius:6px;height:10px;overflow:hidden">
+      <div style="height:100%;border-radius:6px;background:${stretchColor};width:${stretchPct}%;transition:width 0.3s"></div>
+    </div>
+  </div>`;
+
+  const el = document.getElementById('categoryProgress');
+  if(el) el.innerHTML = html;
+}
+
+
+function resetWeekCount(){
+  if(!confirm('今週のカウントを0にリセットしますか？'))return;
+  wkCnt=0;
+  localStorage.setItem('hgWk','0');
+  updateWeekDots();
+  alert('✅ リセットしました！');
 }
 
 function updateWeekDots(){
-  let h='';
-  for(let i=0;i<5;i++) h+=`<div class="week-dot${i<wkCnt?' done':''}"></div>`;
-  document.getElementById('weekDots').innerHTML=h;
-  document.getElementById('weekCount').textContent=wkCnt;
+  // week dots removed - now using category progress
 }
 
 function toggleWalk(){
@@ -699,7 +764,7 @@ function toggleWalk(){
     walkOn=true;
     document.getElementById('walkBtn').textContent='停止';
     document.getElementById('walkBtn').className='walk-btn walk-stop';
-    walkIv=setInterval(()=>{walkSec++;updWalk();},1000);
+    walkIv=setInterval(()=>{walkSec++;updWalk();updateCategoryProgress();},1000);
   } else {
     walkOn=false;
     document.getElementById('walkBtn').textContent='再開';
@@ -724,10 +789,22 @@ function pad(n){return String(n).padStart(2,'0');}
 function completeWorkout(){
   wkCnt=Math.min(5,wkCnt+1);
   localStorage.setItem('hgWk',String(wkCnt));
+
+  // 今日のメモを思い出しノートに日付つきで追記
+  const memo=document.getElementById('todayNotes').value.trim();
+  if(memo){
+    const now=new Date();
+    const dateStr=now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日（'+['日','月','火','水','木','金','土'][now.getDay()]+'）';
+    const notes=getNotes();
+    notes.unshift({date:dateStr,text:memo,id:Date.now()});
+    if(notes.length>50)notes.pop();
+    saveNotes(notes);
+  }
+
   checked={};renderToday();resetWalk();
   document.getElementById('todayNotes').value='';
   updateWeekDots();
-  alert('✅ トレーニング完了！\nお疲れ様でした！💪');
+  alert('✅ 今日のトレーニング終了！\nお疲れ様でした！💪'+(memo?'\n\nメモを思い出しノートに保存しました':''));
 }
 
 let weekOffset=0;
@@ -947,11 +1024,12 @@ function switchTab(name,tabId){
 
 // ===== MYPAGE =====
 const bodyParts=[
-  {id:'knee',label:'膝',icon:'🦵'},
+  {id:'knee',label:'両膝靭帯',icon:'🦵'},
+  {id:'ankle',label:'足首',icon:'🦶'},
   {id:'back',label:'腰',icon:'🔙'},
   {id:'shoulder',label:'肩・首',icon:'💆'},
-  {id:'ankle',label:'足首',icon:'🦶'},
-  {id:'energy',label:'体力',icon:'⚡'},
+  {id:'elbow',label:'肘',icon:'💪'},
+  {id:'wrist',label:'手首',icon:'🤲'},
 ];
 const goalItems=[
   {id:'weight',label:'体重',unit:'kg'},
@@ -974,14 +1052,14 @@ function renderBodyCheck(){
   const saved=JSON.parse(localStorage.getItem('hgBody')||'{}');
   const savedDate=localStorage.getItem('hgBodyDate')||'';
   const data=savedDate===today?saved:{};
-  const levels=[{v:0,label:'良好',color:'var(--green)'},{v:1,label:'普通',color:'var(--amber)'},{v:2,label:'痛みあり',color:'var(--coral)'}];
+  const levels=[{v:0,label:'問題なし',color:'var(--green)'},{v:1,label:'違和感あり',color:'var(--amber)'},{v:2,label:'痛みあり',color:'var(--coral)'},{v:3,label:'強い痛み',color:'#cc2200'}];
   document.getElementById('bodyCheck').innerHTML=bodyParts.map(p=>{
     const cur=data[p.id]??0;
     return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border)">
       <div style="font-size:22px">${p.icon}</div>
       <div style="font-size:15px;font-weight:600;color:var(--text);width:60px">${p.label}</div>
       <div style="display:flex;gap:6px;flex:1">
-        ${levels.map(l=>`<button onclick="setBody('${p.id}',${l.v})" style="flex:1;padding:8px 4px;border-radius:8px;border:2px solid ${cur===l.v?l.color:'var(--border2)'};background:${cur===l.v?l.color+'22':'transparent'};color:${cur===l.v?l.color:'var(--text3)'};font-size:13px;font-weight:700;cursor:pointer">${l.label}</button>`).join('')}
+        ${levels.map(l=>`<button onclick="setBody('${p.id}',${l.v})" style="flex:1;padding:8px 2px;border-radius:8px;border:2px solid ${cur===l.v?l.color:'var(--border2)'};background:${cur===l.v?l.color+'22':'transparent'};color:${cur===l.v?l.color:'var(--text3)'};font-size:12px;font-weight:700;cursor:pointer">${l.label}</button>`).join('')}
       </div>
     </div>`;
   }).join('');
@@ -1031,16 +1109,75 @@ function removeWeightMemo(i){
   renderWeightMemo();
 }
 
-function saveNote(){
-  const note=document.getElementById('noteArea').value;
-  localStorage.setItem('hgNote',note);
-  alert('✅ 保存しました！');
+function getNotes(){
+  return JSON.parse(localStorage.getItem('hgNoteList')||'[]');
+}
+function saveNotes(notes){
+  localStorage.setItem('hgNoteList',JSON.stringify(notes));
+}
+
+function addNoteManual(){
+  const input=document.getElementById('noteInput');
+  if(!input||!input.value.trim()){alert('メモを入力してください');return;}
+  const now=new Date();
+  const dateStr=now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日（'+['日','月','火','水','木','金','土'][now.getDay()]+'）';
+  const notes=getNotes();
+  notes.unshift({date:dateStr,text:input.value.trim(),id:Date.now()});
+  if(notes.length>50)notes.pop();
+  saveNotes(notes);
+  input.value='';
+  renderNoteList();
+  alert('✅ 追加しました！');
+}
+
+function deleteNote(id){
+  if(!confirm('このメモを削除しますか？'))return;
+  const notes=getNotes().filter(n=>n.id!==id);
+  saveNotes(notes);
+  renderNoteList();
+}
+
+function renderNoteList(){
+  const notes=getNotes();
+  const el=document.getElementById('noteList');
+  if(!el)return;
+  if(!notes.length){
+    el.innerHTML='<div style="font-size:15px;color:var(--text3);text-align:center;padding:20px">まだメモがありません</div>';
+    return;
+  }
+  el.innerHTML=notes.map(n=>`
+    <div style="background:var(--surface2);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;border:1px solid var(--border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div style="font-size:13px;font-weight:700;color:var(--amber-dark)">📅 ${n.date}</div>
+        <button onclick="deleteNote(${n.id})" style="padding:4px 12px;background:var(--coral-light);color:var(--coral-dark);border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer">🗑 削除</button>
+      </div>
+      <div style="font-size:15px;color:var(--text);line-height:1.7;white-space:pre-wrap">${n.text}</div>
+    </div>`).join('');
 }
 
 function loadNote(){
-  const note=localStorage.getItem('hgNote')||'';
-  const el=document.getElementById('noteArea');
-  if(el)el.value=note;
+  renderNoteList();
+}
+
+// Migrate old note format if exists
+function migrateOldNote(){
+  const old=localStorage.getItem('hgNote');
+  if(old&&old.trim()){
+    const notes=getNotes();
+    if(notes.length===0){
+      // Parse old format entries separated by double newlines
+      const entries=old.split(/
+
++/).filter(e=>e.trim());
+      const migrated=entries.map((e,i)=>({
+        date:'（移行済み）',
+        text:e.trim(),
+        id:Date.now()-i*1000
+      }));
+      saveNotes(migrated);
+      localStorage.removeItem('hgNote');
+    }
+  }
 }
 
 function renderGoals(){
@@ -1220,6 +1357,7 @@ function closeEquipModal(){
 }
 
 function renderMypage(){
+  migrateOldNote();
   renderBodyCheck();
   renderWeightMemo();
   loadNote();
