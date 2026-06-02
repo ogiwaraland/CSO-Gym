@@ -1,4 +1,5 @@
-[index.html](https://github.com/user-attachments/files/28526575/index.html)
+CSO Gym
+[index.html](https://github.com/user-attachments/files/28526636/index.html)
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -319,12 +320,9 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
   <!-- 思い出しノート -->
   <div class="sec-title"><span class="sec-dot" style="background:var(--amber)"></span>思い出しノート</div>
   <div class="card">
-    <div style="font-size:14px;color:var(--text3);margin-bottom:10px">トレーニング終了時に自動追記されます</div>
-    <div style="display:flex;gap:8px;margin-bottom:12px">
-      <textarea id="noteInput" class="notes-area" placeholder="今日のメモを手動で追加..." style="min-height:70px;flex:1;margin-top:0"></textarea>
-    </div>
-    <button onclick="addNoteManual()" style="width:100%;padding:12px;background:var(--amber);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;margin-bottom:14px">➕ 手動で追加</button>
-    <div id="noteList"></div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:8px">体調・痛み・気づきを記録（上書き保存・容量ゼロ）</div>
+    <textarea id="noteArea" class="notes-area" placeholder="例：右膝が少し痛む。ダンベルカールは12kgに上げた。腰は今日は調子良い..."></textarea>
+    <button onclick="saveNote()" style="margin-top:10px;width:100%;padding:12px;background:var(--amber);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">💾 保存（上書き）</button>
   </div>
 
   <!-- 目標管理 -->
@@ -795,10 +793,10 @@ function completeWorkout(){
   if(memo){
     const now=new Date();
     const dateStr=now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日（'+['日','月','火','水','木','金','土'][now.getDay()]+'）';
-    const notes=getNotes();
-    notes.unshift({date:dateStr,text:memo,id:Date.now()});
-    if(notes.length>50)notes.pop();
-    saveNotes(notes);
+    const existing=localStorage.getItem('hgNote')||'';
+    const newEntry='【'+dateStr+'】\n'+memo;
+    const updated=newEntry+(existing?'\n\n'+existing:'');
+    localStorage.setItem('hgNote',updated);
   }
 
   checked={};renderToday();resetWalk();
@@ -1109,75 +1107,16 @@ function removeWeightMemo(i){
   renderWeightMemo();
 }
 
-function getNotes(){
-  return JSON.parse(localStorage.getItem('hgNoteList')||'[]');
-}
-function saveNotes(notes){
-  localStorage.setItem('hgNoteList',JSON.stringify(notes));
-}
-
-function addNoteManual(){
-  const input=document.getElementById('noteInput');
-  if(!input||!input.value.trim()){alert('メモを入力してください');return;}
-  const now=new Date();
-  const dateStr=now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日（'+['日','月','火','水','木','金','土'][now.getDay()]+'）';
-  const notes=getNotes();
-  notes.unshift({date:dateStr,text:input.value.trim(),id:Date.now()});
-  if(notes.length>50)notes.pop();
-  saveNotes(notes);
-  input.value='';
-  renderNoteList();
-  alert('✅ 追加しました！');
-}
-
-function deleteNote(id){
-  if(!confirm('このメモを削除しますか？'))return;
-  const notes=getNotes().filter(n=>n.id!==id);
-  saveNotes(notes);
-  renderNoteList();
-}
-
-function renderNoteList(){
-  const notes=getNotes();
-  const el=document.getElementById('noteList');
-  if(!el)return;
-  if(!notes.length){
-    el.innerHTML='<div style="font-size:15px;color:var(--text3);text-align:center;padding:20px">まだメモがありません</div>';
-    return;
-  }
-  el.innerHTML=notes.map(n=>`
-    <div style="background:var(--surface2);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;border:1px solid var(--border)">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-        <div style="font-size:13px;font-weight:700;color:var(--amber-dark)">📅 ${n.date}</div>
-        <button onclick="deleteNote(${n.id})" style="padding:4px 12px;background:var(--coral-light);color:var(--coral-dark);border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer">🗑 削除</button>
-      </div>
-      <div style="font-size:15px;color:var(--text);line-height:1.7;white-space:pre-wrap">${n.text}</div>
-    </div>`).join('');
+function saveNote(){
+  const note=document.getElementById('noteArea').value;
+  localStorage.setItem('hgNote',note);
+  alert('✅ 保存しました！');
 }
 
 function loadNote(){
-  renderNoteList();
-}
-
-// Migrate old note format if exists
-function migrateOldNote(){
-  const old=localStorage.getItem('hgNote');
-  if(old&&old.trim()){
-    const notes=getNotes();
-    if(notes.length===0){
-      // Parse old format entries separated by double newlines
-      const entries=old.split(/
-
-+/).filter(e=>e.trim());
-      const migrated=entries.map((e,i)=>({
-        date:'（移行済み）',
-        text:e.trim(),
-        id:Date.now()-i*1000
-      }));
-      saveNotes(migrated);
-      localStorage.removeItem('hgNote');
-    }
-  }
+  const note=localStorage.getItem('hgNote')||'';
+  const el=document.getElementById('noteArea');
+  if(el)el.value=note;
 }
 
 function renderGoals(){
@@ -1357,7 +1296,6 @@ function closeEquipModal(){
 }
 
 function renderMypage(){
-  migrateOldNote();
   renderBodyCheck();
   renderWeightMemo();
   loadNote();
