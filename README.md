@@ -1,5 +1,5 @@
 CSO Gym
-[index.html](https://github.com/user-attachments/files/28534382/index.html)
+[index.html](https://github.com/user-attachments/files/28539728/index.html)
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -7,8 +7,21 @@ CSO Gym
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>ホームジム トレーニング管理</title>
+<title>CSO Gym - ホームジム トレーニング管理</title>
 <style>
+/* ==========================================================================
+   CSO Gym single-file app
+
+   修正するときの目安:
+   - 色や余白を変える: CSS TOKENS / COMMON UI
+   - タブの見た目: TABS
+   - 今日の画面: TODAY / EXERCISE / WALK / NOTES
+   - 週間画面: SCHEDULE
+   - 種目一覧: LIBRARY
+   - マイページ: MYPAGE
+   ========================================================================== */
+
+/* ===== CSS TOKENS / RESET ===== */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;background:#1a1a1a;color:#f0ede6;min-height:100vh}
 :root{
@@ -44,7 +57,7 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 .bp{background:var(--purple-light);color:var(--purple-dark)}
 .sec{font-size:17px;font-weight:700;color:var(--text2);margin:18px 0 10px;display:flex;align-items:center;gap:8px}
 .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-/* Progress */
+/* ===== TODAY: PROGRESS ===== */
 .prog-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:14px 16px;margin-bottom:14px}
 .prog-title{font-size:16px;font-weight:700;color:var(--text2);margin-bottom:12px}
 .prog-row{margin-bottom:10px}
@@ -53,12 +66,12 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 .prog-val{font-size:15px;font-weight:700}
 .prog-bar-bg{background:var(--surface2);border-radius:6px;height:10px;overflow:hidden}
 .prog-bar{height:100%;border-radius:6px;transition:width 0.3s}
-/* Duration */
+/* ===== TODAY: DURATION ===== */
 .dur-row{display:flex;gap:8px;margin-bottom:14px;align-items:center}
 .dur-lbl{font-size:16px;color:var(--text2);font-weight:600}
 .dur-btn{padding:11px 26px;border-radius:24px;border:1.5px solid var(--border2);background:transparent;font-size:16px;font-weight:700;cursor:pointer;color:var(--text2)}
 .dur-btn.sel{background:var(--blue);color:#fff;border-color:var(--blue)}
-/* Exercise */
+/* ===== TODAY: EXERCISE ===== */
 .ex-row{padding:10px 0;border-top:1px solid var(--border)}
 .ex-row:first-child{border-top:none}
 .ex-top{display:flex;align-items:center;gap:10px}
@@ -72,7 +85,7 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 .ex-info{font-size:20px;cursor:pointer;padding:0 4px;flex-shrink:0;color:var(--text3)}
 .ex-desc{display:none;margin-top:8px;padding:10px 12px;background:var(--surface2);border-radius:8px;border-left:3px solid var(--blue);font-size:14px;color:var(--text2);line-height:1.7}
 .custom-badge{font-size:11px;padding:2px 7px;border-radius:5px;background:#3a2a50;color:var(--purple-dark);font-weight:600;margin-left:6px}
-/* Walk */
+/* ===== TODAY: WALK ===== */
 .walk-meta{font-size:16px;color:var(--text2);margin-bottom:12px;line-height:1.6}
 .walk-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
 .walk-timer{font-size:46px;font-weight:700;min-width:110px;font-variant-numeric:tabular-nums}
@@ -83,13 +96,13 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 .walk-bar-bg{background:var(--surface2);border-radius:6px;height:10px;overflow:hidden;margin-bottom:6px}
 .walk-bar{height:100%;background:var(--green);border-radius:6px;transition:width 0.5s}
 .walk-note{font-size:14px;color:var(--text3);line-height:1.5}
-/* Notes */
+/* ===== NOTES / FORMS ===== */
 .textarea{width:100%;border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;font-size:17px;font-family:inherit;color:var(--text);background:var(--surface2);resize:vertical;min-height:90px}
 .textarea:focus{outline:none;border-color:var(--green)}
 .textarea::placeholder{color:var(--text3)}
 .end-btn{width:100%;padding:17px;background:var(--green);color:#fff;border:none;border-radius:var(--r);font-size:18px;font-weight:700;cursor:pointer;margin-top:14px}
 .end-btn:active{opacity:0.85}
-/* Schedule */
+/* ===== SCHEDULE ===== */
 .week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .nav-btn{padding:10px 18px;background:var(--surface2);border:1.5px solid var(--border2);border-radius:var(--r);color:var(--text);font-size:17px;font-weight:700;cursor:pointer}
 .nav-btn:disabled{opacity:0.3;cursor:not-allowed}
@@ -113,7 +126,7 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 .prog-tm{font-size:13px;color:var(--text3);margin-top:4px;font-weight:600}
 .inj-box{background:var(--coral-light);border:1px solid #5a2010;border-radius:var(--rl);padding:16px 18px}
 .inj-item{font-size:15px;color:var(--coral-dark);padding:5px 0;line-height:1.6}
-/* Library */
+/* ===== LIBRARY ===== */
 .filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .fbtn{padding:9px 15px;border-radius:20px;border:1.5px solid var(--border2);background:transparent;font-size:14px;font-weight:600;cursor:pointer;color:var(--text2)}
 .fbtn.sel{background:var(--text);color:#1a1a1a;border-color:var(--text)}
@@ -134,7 +147,7 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 .ts{background:#0a2a2a;color:#60e0d0}
 .lib-desc{font-size:13px;color:var(--text2);line-height:1.6}
 .lib-sets{font-size:14px;font-weight:700;margin-top:6px}
-/* Mypage */
+/* ===== MYPAGE ===== */
 .add-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .inp{padding:11px 13px;border:1px solid var(--border2);border-radius:var(--r);background:var(--surface);color:var(--text);font-size:16px;font-family:inherit;width:100%}
 .inp:focus{outline:none;border-color:var(--green)}
@@ -303,6 +316,47 @@ body{font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;backgro
 </div><!-- /content -->
 </div><!-- /app -->
 <script>
+/* ==========================================================================
+   JavaScript maintenance map
+
+   DATA:
+     種目・週間メニュー・怪我メモ・設備一覧など、表示内容そのもの。
+   STATE:
+     今の画面状態。保存が必要なものは STORAGE 経由で localStorage に入る。
+   STORAGE:
+     localStorage の読み書き。保存名を変える場合は STORAGE_KEYS だけを見る。
+   RENDER:
+     画面を作る処理。表示がおかしい時は該当 render 関数を見る。
+   ACTIONS:
+     ボタン操作。追加・削除・チェック・タイマーなど。
+   INIT:
+     起動時に最初に走る処理。
+   ========================================================================== */
+
+const STORAGE_KEYS=Object.freeze({
+  customExercises:'hgCEx',
+  weekCount:'hgWk',
+  notes:'hgNotes',
+  body:'hgBody',
+  bodyDate:'hgBodyDate',
+  weightMemo:'hgWMemo',
+  goals:'hgGoals',
+});
+
+function readJson(key,fallback){
+  try{
+    const raw=localStorage.getItem(key);
+    return raw?JSON.parse(raw):fallback;
+  }catch(_){
+    return fallback;
+  }
+}
+function writeJson(key,value){localStorage.setItem(key,JSON.stringify(value));}
+function readNumber(key,fallback){
+  const value=parseInt(localStorage.getItem(key)||'',10);
+  return Number.isFinite(value)?value:fallback;
+}
+
 const DJ=['日','月','火','水','木','金','土'];
 
 // ===== DATA =====
@@ -560,16 +614,16 @@ const goalItems=[
 let dur=60;
 let chk={};
 let walkOn=false,walkSec=0,walkIv=null;
-let customEx=JSON.parse(localStorage.getItem('hgCEx')||'[]');
-let wkCnt=parseInt(localStorage.getItem('hgWk')||'0');
+let customEx=readJson(STORAGE_KEYS.customExercises,[]);
+let wkCnt=readNumber(STORAGE_KEYS.weekCount,0);
 let weekOff=0;
 
 // ===== HELPERS =====
 function pad(n){return String(n).padStart(2,'0');}
-function getNotes(){return JSON.parse(localStorage.getItem('hgNotes')||'[]');}
-function saveNotes(n){localStorage.setItem('hgNotes',JSON.stringify(n));}
+function getNotes(){return readJson(STORAGE_KEYS.notes,[]);}
+function saveNotes(n){writeJson(STORAGE_KEYS.notes,n);}
 
-// ===== TODAY =====
+// ===== RENDER: TODAY =====
 function setDur(d){
   dur=d;
   document.getElementById('d60').classList.toggle('sel',d===60);
@@ -674,7 +728,7 @@ function updateProg(){
   document.getElementById('catProg').innerHTML=h;
 }
 
-// ===== WALK =====
+// ===== ACTIONS: WALK TIMER =====
 function toggleWalk(){
   if(!walkOn){
     walkOn=true;
@@ -700,7 +754,7 @@ function updWalk(){
   document.getElementById('wBar').style.width=Math.min(100,Math.round(walkSec/1800*100))+'%';
 }
 
-// ===== END WORKOUT =====
+// ===== ACTIONS: END WORKOUT =====
 function endWorkout(){
   const memo=document.getElementById('todayMemo').value.trim();
   if(memo){
@@ -712,13 +766,13 @@ function endWorkout(){
     saveNotes(notes);
   }
   wkCnt=Math.min(5,wkCnt+1);
-  localStorage.setItem('hgWk',String(wkCnt));
+  localStorage.setItem(STORAGE_KEYS.weekCount,String(wkCnt));
   chk={};renderToday();resetWalk();
   document.getElementById('todayMemo').value='';
   alert('✅ お疲れ様でした！'+(memo?'\nメモを思い出しノートに保存しました':''));
 }
 
-// ===== SCHEDULE =====
+// ===== RENDER: SCHEDULE =====
 function chgWeek(d){
   const n=weekOff+d;
   if(n<-1||n>1){alert(n<0?'1週前までです':'1週先までです');return;}
@@ -810,7 +864,7 @@ function showDay(idx,dateStr){
   document.getElementById('dayDetail').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-// ===== LIBRARY =====
+// ===== RENDER: LIBRARY =====
 const libCats=[
   {id:'all',label:'すべて'},{id:'upper',label:'上半身'},{id:'lower',label:'下半身'},
   {id:'core',label:'体幹'},{id:'ball',label:'バランスボール'},{id:'mball',label:'ウエイトボール'},
@@ -840,11 +894,11 @@ function renderLibrary(cat){
     </div>`).join('');
 }
 
-// ===== MYPAGE =====
+// ===== RENDER / ACTIONS: MYPAGE =====
 function renderBodyCheck(){
   const today=new Date().toDateString();
-  const saved=JSON.parse(localStorage.getItem('hgBody')||'{}');
-  const savedDate=localStorage.getItem('hgBodyDate')||'';
+  const saved=readJson(STORAGE_KEYS.body,{});
+  const savedDate=localStorage.getItem(STORAGE_KEYS.bodyDate)||'';
   const data=savedDate===today?saved:{};
   document.getElementById('bodyCheck').innerHTML=bodyParts.map(p=>{
     const cur=data[p.id]??-1;
@@ -860,17 +914,17 @@ function renderBodyCheck(){
 
 function setBody(id,val){
   const today=new Date().toDateString();
-  const saved=JSON.parse(localStorage.getItem('hgBody')||'{}');
-  const savedDate=localStorage.getItem('hgBodyDate')||'';
+  const saved=readJson(STORAGE_KEYS.body,{});
+  const savedDate=localStorage.getItem(STORAGE_KEYS.bodyDate)||'';
   const data=savedDate===today?saved:{};
   data[id]=val;
-  localStorage.setItem('hgBody',JSON.stringify(data));
-  localStorage.setItem('hgBodyDate',today);
+  writeJson(STORAGE_KEYS.body,data);
+  localStorage.setItem(STORAGE_KEYS.bodyDate,today);
   renderBodyCheck();
 }
 
 function renderWMemo(){
-  const memos=JSON.parse(localStorage.getItem('hgWMemo')||'[]');
+  const memos=readJson(STORAGE_KEYS.weightMemo,[]);
   const el=document.getElementById('wMemoList');
   if(!memos.length){el.innerHTML='<div style="font-size:14px;color:var(--text3);margin-bottom:10px">まだ記録がありません</div>';return;}
   el.innerHTML=memos.map((m,i)=>`
@@ -885,17 +939,17 @@ function addWMemo(){
   const name=document.getElementById('wName').value.trim();
   const kg=document.getElementById('wKg').value.trim();
   if(!name||!kg){alert('種目名と重量を入力してください');return;}
-  const memos=JSON.parse(localStorage.getItem('hgWMemo')||'[]');
+  const memos=readJson(STORAGE_KEYS.weightMemo,[]);
   const idx=memos.findIndex(m=>m.name===name);
   if(idx>=0)memos[idx].kg=kg;else memos.push({name,kg});
-  localStorage.setItem('hgWMemo',JSON.stringify(memos));
+  writeJson(STORAGE_KEYS.weightMemo,memos);
   document.getElementById('wName').value='';document.getElementById('wKg').value='';
   renderWMemo();
 }
 
 function removeWMemo(i){
-  const memos=JSON.parse(localStorage.getItem('hgWMemo')||'[]');
-  memos.splice(i,1);localStorage.setItem('hgWMemo',JSON.stringify(memos));renderWMemo();
+  const memos=readJson(STORAGE_KEYS.weightMemo,[]);
+  memos.splice(i,1);writeJson(STORAGE_KEYS.weightMemo,memos);renderWMemo();
 }
 
 function addNoteManual(){
@@ -931,7 +985,7 @@ function renderNotes(){
 }
 
 function renderGoals(){
-  const goals=JSON.parse(localStorage.getItem('hgGoals')||'{}');
+  const goals=readJson(STORAGE_KEYS.goals,{});
   document.getElementById('goalList').innerHTML=goalItems.map(g=>`
     <div class="goal-row">
       <div class="goal-lbl">${g.label}</div>
@@ -943,8 +997,8 @@ function renderGoals(){
 }
 
 function saveGoal(key,val){
-  const goals=JSON.parse(localStorage.getItem('hgGoals')||'{}');
-  goals[key]=val;localStorage.setItem('hgGoals',JSON.stringify(goals));
+  const goals=readJson(STORAGE_KEYS.goals,{});
+  goals[key]=val;writeJson(STORAGE_KEYS.goals,goals);
 }
 
 function renderEquip(){
@@ -984,7 +1038,7 @@ function showEqEx(key,catName){
 function addFromEquip(name,detail,cat,key,catName){
   if(customEx.some(c=>c.n===name)){alert('すでに追加されています');return;}
   customEx.push({n:name,d:detail,c:null,cat});
-  localStorage.setItem('hgCEx',JSON.stringify(customEx));
+  writeJson(STORAGE_KEYS.customExercises,customEx);
   renderToday();showEqEx(key,catName);
   alert('✅ '+name+'\nを追加しました！');
 }
@@ -999,7 +1053,7 @@ function addCustomEx(){
   if(!name){alert('種目名を入力してください');return;}
   if(customEx.some(c=>c.n===name)){alert('同じ名前の種目がすでにあります');return;}
   customEx.push({n:name,d:detail||'記録なし',c:caution||null,cat});
-  localStorage.setItem('hgCEx',JSON.stringify(customEx));
+  writeJson(STORAGE_KEYS.customExercises,customEx);
   document.getElementById('aeName').value='';document.getElementById('aeDetail').value='';document.getElementById('aeCaution').value='';
   renderToday();alert('✅ 追加しました！');
 }
@@ -1008,7 +1062,7 @@ function removeCustomEx(idx){
   if(idx<0)return;
   if(!confirm('この種目を削除しますか？'))return;
   customEx.splice(idx,1);
-  localStorage.setItem('hgCEx',JSON.stringify(customEx));
+  writeJson(STORAGE_KEYS.customExercises,customEx);
   renderLibrary('all');renderToday();
 }
 
@@ -1016,7 +1070,7 @@ function renderMypage(){
   renderBodyCheck();renderWMemo();renderNotes();renderGoals();renderEquip();
 }
 
-// ===== TAB SWITCH =====
+// ===== ACTIONS: TAB SWITCH =====
 function sw(name,tabId){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
