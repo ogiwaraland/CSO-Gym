@@ -1,5 +1,5 @@
 CSO Gym
-[index.html](https://github.com/user-attachments/files/28534280/index.html)
+[index.html](https://github.com/user-attachments/files/28534382/index.html)
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -481,7 +481,7 @@ const equipData=[
   {cat:'ケトルベル',items:'8kg / 12kg / 16kg',key:'ケトルベル'},
   {cat:'マシン',items:'BARWINGマシン / ルームランナー',key:'マシン'},
   {cat:'器具',items:'可変式トレーニングベンチ / 懸垂マシン＋ディップススタンド',key:'懸垂'},
-  {cat:'ボール類',items:'バランスボール10kg / ウエイトボール10kg',key:'ボール'},
+  {cat:'ボール類',items:'バランスボール / ウエイトボール10kg',key:'ボール'},
   {cat:'ケア用品',items:'フォームローラー / ストレッチポール',key:'ケア'},
   {cat:'バンド',items:'ヒップバンド（軽・中・強）/ 腹筋ローラー',key:'バンド'},
 ];
