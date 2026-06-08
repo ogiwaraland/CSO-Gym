@@ -1,5 +1,5 @@
 CSO Gym
-[index.html](https://github.com/user-attachments/files/28692942/index.html)
+[index.html](https://github.com/user-attachments/files/28693227/index.html)
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -749,7 +749,7 @@ function muscleInfo(e){
   const items=[];
   const add=(key,label)=>{if(!items.some(x=>x.key===key))items.push({key,label});};
   if(/チェスト|フライ|プッシュアップ|ディップス|胸|プレス/.test(name))add('chest','胸');
-  if(/ロー|懸垂|ラット|バック|背中|プル|マシンロー/.test(name))add('back','背中');
+  if(/ロー|ロウ|懸垂|ラット|バック|背中|プル|マシンロー/.test(name))add('back','背中');
   if(/ショルダー|サイドレイズ|リアレイズ|肩/.test(name))add('shoulder','肩');
   if(/カール|トライセプス|二頭|三頭|腕/.test(name))add('arm','腕');
   if(/腹|プランク|デッドバグ|バードドッグ|体幹|コア|ローラー|T-Betabs/.test(name))add('core','体幹');
